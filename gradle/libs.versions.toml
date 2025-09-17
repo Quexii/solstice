@@ -1,0 +1,50 @@
+[versions]
+# kotlin
+kotlin = "2.2.20"
+coroutines = "1.10.2"
+serialization = "1.9.0"
+# LWJGL
+lwjgl = "3.3.6"
+# Extra
+slf4j = "2.0.16"
+logback = "1.4.14"
+
+[libraries]
+# kotlin
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+# lwjgl
+lwjgl-bom = { module = "org.lwjgl:lwjgl-bom", version.ref = "lwjgl" }
+lwjgl-core = { module = "org.lwjgl:lwjgl" }
+lwjgl-glfw = { module = "org.lwjgl:lwjgl-glfw" }
+lwjgl-opengl = { module = "org.lwjgl:lwjgl-opengl" }
+lwjgl-stb = { module = "org.lwjgl:lwjgl-stb" }
+lwjgl-egl = { module = "org.lwjgl:lwjgl-egl" }
+lwjgl-ktx = { module = "org.lwjgl:lwjgl-ktx" }
+lwjgl-lz4 = { module = "org.lwjgl:lwjgl-lz4" }
+lwjgl-nanovg = { module = "org.lwjgl:lwjgl-nanovg" }
+lwjgl-nfd = { module = "org.lwjgl:lwjgl-nfd" }
+lwjgl-openal = { module = "org.lwjgl:lwjgl-openal" }
+lwjgl-opengles = { module = "org.lwjgl:lwjgl-opengles" }
+
+# Logging
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
+
+[bundles]
+kotlin = ["kotlin-stdlib", "kotlinx-coroutines-core", "kotlinx-serialization"]
+logging = ["slf4j-api", "logback-classic"]
+lwjgl-shared = [
+    "lwjgl-core", "lwjgl-ktx", "lwjgl-lz4", "lwjgl-nanovg", "lwjgl-nfd", "lwjgl-openal", "lwjgl-stb"
+]
+lwjgl-desktop = [
+    "lwjgl-glfw", "lwjgl-opengl"
+]
+lwjgl-android = [
+    "lwjgl-egl", "lwjgl-opengles"
+]

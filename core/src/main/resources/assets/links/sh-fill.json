@@ -1,0 +1,33 @@
+{
+  "name": "fill",
+  "shaders": [
+    {
+      "type": "vertex",
+      "file": "shaders/fill.vert"
+    },
+    {
+      "type": "fragment",
+      "file": "shaders/fill.frag"
+    }
+  ],
+  "uniforms": [
+    {
+      "name": "ProjViewMatrix",
+      "type": "mat4"
+    },
+    {
+      "name": "ModelMatrix",
+      "type": "mat4"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "Position",
+      "type": "vec2"
+    },
+    {
+      "name": "Color",
+      "type": "vec4"
+    }
+  ]
+}
