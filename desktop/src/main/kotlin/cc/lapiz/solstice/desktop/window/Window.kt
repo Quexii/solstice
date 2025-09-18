@@ -1,6 +1,6 @@
 package cc.lapiz.solstice.desktop.window
 
-import cc.lapiz.solstice.core.GameCore
+import cc.lapiz.solstice.core.event.Events
 import cc.lapiz.solstice.core.event.WindowEvent
 import cc.lapiz.solstice.core.options.*
 import cc.lapiz.solstice.core.utils.*
@@ -40,15 +40,15 @@ class Window {
 		}
 
 		glfwSetWindowSizeCallback(handle) { _, width, height ->
-			GameCore.EventQueue.push(WindowEvent.Resize(width, height))
+			Events.Queue.push(WindowEvent.Resize(width, height))
 		}
 
 		glfwSetWindowPosCallback(handle) { _, x, y ->
-			GameCore.EventQueue.push(WindowEvent.Move(x, y))
+			Events.Queue.push(WindowEvent.Move(x, y))
 		}
 
 		glfwSetWindowFocusCallback(handle) { _, focused ->
-			GameCore.EventQueue.push(WindowEvent.Focus(focused))
+			Events.Queue.push(WindowEvent.Focus(focused))
 		}
 
 		glfwMakeContextCurrent(handle)

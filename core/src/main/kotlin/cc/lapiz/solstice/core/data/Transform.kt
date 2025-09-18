@@ -14,13 +14,10 @@ class Transform {
 	private val model = Matrix4f()
 	private val buffer = Buffers.createFloatBuffer(16)
 
-	fun matrix() = model.identity()
+	fun matrix(): Matrix4f = model.identity()
 		.translate(position.x, position.y, 0f)
 		.rotateZ(Math.toRadians(rotation.toDouble()).toFloat())
 		.scale(scale.x, scale.y, 1f)
 
-	fun store(): FloatBuffer {
-		matrix().get(buffer)
-		return buffer.flip()
-	}
+	fun store(): FloatBuffer = matrix().get(buffer)
 }

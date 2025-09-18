@@ -42,18 +42,18 @@ class GLFWInputHandler(window: Window) : InputHandler {
 					else -> null
 				}
 
-				event?.let { GameCore.EventQueue.push(it) }
+				event?.let { Events.Queue.push(it) }
 			}
 		}
 
 		glfwSetCharCallback(handle) { _, codepoint ->
 			val char = codepoint.toChar()
-			GameCore.EventQueue.push(InputEvent.KeyType(char))
+			Events.Queue.push(InputEvent.KeyType(char))
 		}
 
 		glfwSetCursorPosCallback(handle) { _, xpos, ypos ->
 			mousePos.set(xpos.toFloat(), ypos.toFloat())
-			GameCore.EventQueue.push(InputEvent.MouseMove(mousePos))
+			Events.Queue.push(InputEvent.MouseMove(mousePos))
 		}
 
 		glfwSetMouseButtonCallback(handle) { _, button, action, _ ->
@@ -76,12 +76,12 @@ class GLFWInputHandler(window: Window) : InputHandler {
 					else -> null
 				}
 
-				event?.let { GameCore.EventQueue.push(it) }
+				event?.let { Events.Queue.push(it) }
 			}
 		}
 
 		glfwSetScrollCallback(handle) { _, xpos, ypos ->
-			GameCore.EventQueue.push(InputEvent.MouseScroll(ypos.toFloat()))
+			Events.Queue.push(InputEvent.MouseScroll(ypos.toFloat()))
 		}
 	}
 

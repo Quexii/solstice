@@ -9,8 +9,9 @@ object ResourceManager {
 
 	fun get(id: String): Resource? = resources[id]
 
-	fun <T> load(resource: T) where T : Resource, T : Loadable {
+	fun <T> load(resource: T): Resource where T : Resource, T : Loadable {
 		register(resource)
 		resource.load()
+		return resource
 	}
 }

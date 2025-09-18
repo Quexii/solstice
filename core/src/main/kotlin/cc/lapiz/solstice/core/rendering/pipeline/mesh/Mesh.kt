@@ -24,16 +24,17 @@ class Mesh(private var mode: Mode, val layout: VertexLayout, val vertexCount: In
 
 	fun init() {
 		vao = Graphics.genVertexArrays()
-		Graphics.bindVertexArray(vao)
 		vbo = Graphics.genBuffers()
+
+		Graphics.bindVertexArray(vao)
 		Graphics.bindBuffer(Graphics.ARRAY_BUFFER, vbo)
 		Graphics.bufferData(Graphics.ARRAY_BUFFER, vertexData, usage.value)
 
 		var offset = 0L
 		layout.getAttributes().forEachIndexed { index, attr ->
+			Graphics.vertexAttribPointer(index, attr.type.componentCount, attr.type.get(), false, layout.getStride(), offset * Float.SIZE_BYTES)
 			Graphics.enableVertexAttribArray(index)
-			Graphics.vertexAttribPointer(index, attr.type.componentCount, attr.type.get(), false, layout.getStride() * 4, offset)
-			offset += attr.type.componentCount * 4
+			offset += attr.type.componentCount
 		}
 		Graphics.bindBuffer(Graphics.ARRAY_BUFFER, 0)
 		Graphics.bindVertexArray(0)

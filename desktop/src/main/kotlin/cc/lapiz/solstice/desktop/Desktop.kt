@@ -1,26 +1,30 @@
 package cc.lapiz.solstice.desktop
 
 import cc.lapiz.solstice.core.*
-import cc.lapiz.solstice.core.event.WindowEvent
+import cc.lapiz.solstice.core.event.Events
 import cc.lapiz.solstice.core.input.*
+import cc.lapiz.solstice.core.rendering.nanovg.*
+import cc.lapiz.solstice.core.rendering.nanovg.platform.*
 import cc.lapiz.solstice.core.rendering.platform.*
+import cc.lapiz.solstice.core.window.*
 import cc.lapiz.solstice.desktop.platform.*
 import cc.lapiz.solstice.desktop.rendering.paltform.*
-import cc.lapiz.solstice.desktop.window.*
 import org.lwjgl.glfw.GLFW.*
+import org.lwjgl.nanovg.*
 
+private typealias DesktopWindow = cc.lapiz.solstice.desktop.window.Window
 class Desktop : Platform() {
-	private val window = Window()
+	private val window = DesktopWindow()
 
 	override fun start() {
 		window.create("Solstice", 800, 600, false)
-		GameCore.EventQueue.push(WindowEvent.Resize(800, 600))
 
 		timer = GLFWTimer()
 		Input.setHandler(GLFWInputHandler(window))
 		Gr.init(GlFunctions(), GlTypes(), GlCapabilites())
+		NVcanvas.init(NVgl3(), NanoVGGL3.NVG_ANTIALIAS or NanoVGGL3.NVG_STENCIL_STROKES)
 
-		GameCore.start()
+		Window.initialize(800, 600)
 		super.start()
 
 		window.run { handle ->
@@ -29,12 +33,10 @@ class Desktop : Platform() {
 			Graphics.clearColor(0.1f, 0.1f, 0.1f, 0f)
 			Graphics.clear(Graphics.COLOR_BUFFER_BIT)
 			glfwPollEvents()
-			GameCore.EventQueue.poll()?.let { event(it) }
+			Events.Queue.poll()?.let { event(it) }
 			render()
 			glfwSwapBuffers(handle)
 		}
-
-		GameCore.stop()
 
 		window.destroy()
 	}

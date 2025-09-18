@@ -1,6 +1,6 @@
 package cc.lapiz.solstice.core.resource.impl
 
-import cc.lapiz.solstice.core.rendering.pipeline.shader.ShaderLayout
+import cc.lapiz.solstice.core.serialization.ShaderLayout
 import cc.lapiz.solstice.core.resource.*
 import kotlinx.serialization.json.Json
 

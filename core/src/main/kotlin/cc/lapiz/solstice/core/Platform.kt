@@ -1,8 +1,10 @@
 package cc.lapiz.solstice.core
 
 import cc.lapiz.solstice.core.event.*
+import cc.lapiz.solstice.core.game.SceneManager
+import cc.lapiz.solstice.core.game.scenes.main.MainScene
 import cc.lapiz.solstice.core.rendering.*
-import cc.lapiz.solstice.core.rendering.pipeline.mesh.*
+import cc.lapiz.solstice.core.rendering.nanovg.NVcanvas
 import cc.lapiz.solstice.core.time.*
 import cc.lapiz.solstice.core.utils.*
 import cc.lapiz.solstice.core.window.*
@@ -13,31 +15,25 @@ open class Platform {
 	lateinit var timer: Timer
 		protected set
 
-	private lateinit var mesh: Mesh
-	private val mb = MeshBuilder()
-
 	open fun start() {
-		RenderSystem.camera().setViewport(Window.width(), Window.height())
-
-		RenderSystem.setShader { FillShader }
-		mb.begin(Mesh.Mode.TRIANGLES)
-		mb.pos(0f, 0f).color(1f, 0f, 0f, 1f).endVertex()
-		mb.pos(100f, 0f).color(0f, 1f, 0f, 1f).endVertex()
-		mb.pos(0f, 100f).color(0f, 0f, 1f, 1f).endVertex()
-		mesh = mb.build()
-		mesh.init()
+		RenderSystem.init()
+		SceneManager.setScene(MainScene())
 	}
 
 	protected fun update(delta: Float) {
-
+		SceneManager.update(delta)
 	}
 
 	protected fun event(event: Event) {
 		if (event is WindowEvent) Window.handleEvents(event)
-		println("Event: $event")
+		SceneManager.handleEvents(event)
 	}
 
 	protected fun render() {
-		RenderSystem.renderMesh(mesh)
+		RenderSystem.Camera.projectWorld()
+		SceneManager.render()
+		NVcanvas.beginFrame(Window.width().toFloat(), Window.height().toFloat(), 1f)
+		SceneManager.ui()
+		NVcanvas.endFrame()
 	}
 }

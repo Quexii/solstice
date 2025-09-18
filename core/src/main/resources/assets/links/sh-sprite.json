@@ -1,13 +1,13 @@
 {
-  "name": "fill",
+  "name": "sprite",
   "shaders": [
     {
       "type": "vertex",
-      "file": "shaders/fill.vert"
+      "file": "shaders/sprite.vert"
     },
     {
       "type": "fragment",
-      "file": "shaders/fill.frag"
+      "file": "shaders/sprite.frag"
     }
   ],
   "uniforms": [
@@ -18,6 +18,10 @@
     {
       "name": "ModelMatrix",
       "type": "mat4"
+    },
+    {
+      "name": "Texture",
+      "type": "sampler2D"
     }
   ],
   "attributes": [

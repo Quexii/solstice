@@ -1,88 +1,74 @@
 package cc.lapiz.solstice.core.rendering
 
+import cc.lapiz.solstice.core.window.Window
 import org.joml.*
+import org.lwjgl.BufferUtils
+import java.nio.FloatBuffer
 
 class Camera {
-	var position: Vector2f = Vector2f()
-		set(value) {
-			field.set(value)
-			dirty = true
-		}
+	private var position = Vector2f(0f, 0f)
+	private var rotation: Float = 0f
+	private var zoom: Float = 10f
+	private val projectionMatrix = Matrix4f()
+	var projectionBuffer: FloatBuffer = BufferUtils.createFloatBuffer(16)
 
-	var zoom: Float = 1f
-		set(value) {
-			field = value.coerceAtLeast(0.01f)
-			dirty = true
-		}
+	fun projectWorld() {
+		val width = Window.width()
+		val height = Window.height()
 
-	var rotation: Float = 0f
-		set(value) {
-			field = value
-			dirty = true
-		}
-
-	private var worldViewMatrix = Matrix4f()
-	private var worldProjectionMatrix = Matrix4f()
-	private var viewportWidth = 0
-	private var viewportHeight = 0
-	private var dirty = true
-
-	fun setViewport(width: Int, height: Int) {
-		if (viewportWidth != width || viewportHeight != height) {
-			viewportWidth = width
-			viewportHeight = height
-			dirty = true
-		}
+		val aspectRatio = width.toFloat() / height
+		val halfWidth = width / 2f / zoom
+		val halfHeight = height / 2f / zoom
+		projectionMatrix.identity().ortho(
+			-halfWidth * aspectRatio,
+			halfWidth * aspectRatio,
+			-halfHeight * aspectRatio,
+			halfHeight * aspectRatio,
+			-1f,
+			1f
+		).translate(position.x, position.y, 0f).rotateZ(rotation)
+		projectionMatrix.get(projectionBuffer)
 	}
 
-	private fun updateMatrices() {
-		if (!dirty) return
+	fun projectHUD() {
+		val width = Window.width()
+		val height = Window.height()
 
-		val aspectRatio = viewportWidth.toFloat() / viewportHeight.toFloat()
-		val halfHeight = 1f / zoom
-		val halfWidth = halfHeight * aspectRatio
-
-		worldProjectionMatrix.setOrtho(
-			-halfWidth, halfWidth,
-			-halfHeight, halfHeight,
-			-1f, 1f
+		projectionMatrix.identity().ortho(
+			0f,
+			width.toFloat(),
+			height.toFloat(),
+			0f,
+			-1f,
+			1f
 		)
-
-		worldViewMatrix.identity()
-			.translate(-position.x, -position.y, 0f)
-			.rotateZ(-rotation)
-
-		dirty = false
+		projectionMatrix.get(projectionBuffer)
 	}
 
-	fun getMatrix(): Matrix4f {
-		updateMatrices()
-		return Matrix4f(worldProjectionMatrix)
-			.mul(worldViewMatrix)
-	}
-	fun screenToWorld(screenX: Float, screenY: Float): Vector3f {
-		updateMatrices()
-
-		val normalizedX = (screenX / viewportWidth) * 2f - 1f
-		val normalizedY = 1f - (screenY / viewportHeight) * 2f
-
-		val worldPos = Vector3f()
-		Matrix4f(worldProjectionMatrix).mul(worldViewMatrix).invert()
-			.transformPosition(normalizedX, normalizedY, 0f, worldPos)
-
-		return worldPos
+	fun rotateBy(angle: Float) {
+		rotation += angle
 	}
 
-	fun worldToScreen(worldX: Float, worldY: Float): Vector2f {
-		updateMatrices()
-
-		val clipPos = Vector3f()
-		Matrix4f(worldProjectionMatrix).mul(worldViewMatrix)
-			.transformPosition(worldX, worldY, 0f, clipPos)
-
-		val screenX = (clipPos.x + 1f) * 0.5f * viewportWidth
-		val screenY = (1f - clipPos.y) * 0.5f * viewportHeight
-
-		return Vector2f(screenX, screenY)
+	fun rotateTo(angle: Float) {
+		rotation = angle
 	}
+
+	fun moveTo(x: Float, y: Float) {
+		position.set(x, y)
+	}
+
+	fun moveBy(dx: Float, dy: Float) {
+		position.add(dx, dy)
+	}
+
+	fun zoomBy(amount: Float) {
+		zoom += amount
+		zoom = zoom.coerceIn(1f, 30f)
+	}
+
+	fun setZoom(amount: Float) {
+		zoom = amount
+	}
+
+	fun getProjectionMatrix() = projectionMatrix
 }

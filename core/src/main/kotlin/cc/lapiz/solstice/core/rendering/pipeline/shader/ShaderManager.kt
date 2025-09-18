@@ -13,12 +13,21 @@ object ShaderManager {
 	lateinit var FillShader: Shader
 		private set
 
+	lateinit var TestShader: Shader
+		private set
+
 	fun loadShaders() {
 		LOGGER.info("Loading shaders...")
-		ResourceManager.load(shaderFillRes)
-		FillShader = Shader(shaderFillRes)
-		FillShader.init()
+
+		FillShader = loadShader(shaderFillRes)
 
 		LOGGER.info("Loaded shaders.")
+	}
+
+	private fun loadShader(res: ShaderResource): Shader {
+		ResourceManager.load(res)
+		val shader = Shader(res)
+		shader.init()
+		return shader
 	}
 }

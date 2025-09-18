@@ -8,6 +8,11 @@ object Window {
 	private var position = Vector2i()
 	private var focused = true
 
+	fun initialize(width: Int, height: Int) {
+		size.set(width, height)
+		focused = true
+	}
+
 	fun handleEvents(event: WindowEvent) {
 		when (event) {
 			is WindowEvent.Resize -> {
@@ -24,8 +29,6 @@ object Window {
 
 	fun width() = size.x
 	fun height() = size.y
-
 	fun position() = position
-
 	fun isFocused() = focused
 }

@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.core.rendering.pipeline.shader
+package cc.lapiz.solstice.core.serialization
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

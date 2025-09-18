@@ -15,7 +15,7 @@ class Shader(private val resource: ShaderResource) {
 
 	private var program = -1
 	private val shaders = mutableMapOf<Int, Int>()
-	private val uniforms = mutableMapOf<String, Int>()
+	private val uniforms = mutableMapOf<String, Uniform>()
 	private lateinit var uniformScope: UniformScope
 	val layout: VertexLayout by lazy { buildLayout() }
 
@@ -31,12 +31,6 @@ class Shader(private val resource: ShaderResource) {
 			shaders[type] = createShader(source, type)
 		}
 
-		resource.layout.uniforms.forEach {
-			uniforms[it.name] = Graphics.getUniformLocation(program, it.name)
-		}
-
-		uniformScope = UniformScope(uniforms)
-
 		Graphics.linkProgram(program)
 		val status = Graphics.getProgrami(program, Graphics.LINK_STATUS)
 		if (status == Graphics.FALSE) {
@@ -44,6 +38,15 @@ class Shader(private val resource: ShaderResource) {
 			LOGGER.error(Graphics.getProgramInfoLog(program))
 			throw RuntimeException()
 		}
+
+		resource.layout.uniforms.forEach {
+			uniforms[it.name] = Uniform(it.name, it.type, Graphics.getUniformLocation(program, it.name))
+			if (uniforms[it.name]!!.location == -1) {
+				LOGGER.warn("Uniform ${it.name} not found in shader ${resource.layout.name}")
+			}
+		}
+
+		uniformScope = UniformScope(uniforms)
 	}
 	
 	fun bind() {
