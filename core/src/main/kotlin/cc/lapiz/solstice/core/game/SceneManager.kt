@@ -12,12 +12,12 @@ object SceneManager {
 	}
 
 	fun handleEvents(event: Event) {
-		if (event is InputEvent) onInput(event)
+		onEvent(event)
 		if (event is WindowEvent.Resize) current?.resize(event.width, event.height)
 	}
 
-	private fun onInput(event: InputEvent) = current?.onInput(event)
+	private fun onEvent(event: Event) = current?.onEvent(event)
 	fun update(dt: Float) = current?.update(dt)
 	fun render() = current?.render()
-	fun ui() = current?.ui()
+	fun ui() = current?.nanovg()
 }

@@ -7,6 +7,10 @@ import java.nio.*
 fun logger(name: String) = LoggerFactory.getLogger(name)
 fun logger(clazz: Class<*>) = LoggerFactory.getLogger(clazz)
 
+fun contains(x: Float, y: Float, rectX: Float, rectY: Float, rectWidth: Float, rectHeight: Float): Boolean {
+	return x >= rectX && x <= rectX + rectWidth && y >= rectY && y <= rectY + rectHeight
+}
+
 object Buffers {
 	fun createFloatBuffer(size: Int) = ByteBuffer
 		.allocateDirect(size * java.lang.Float.BYTES)

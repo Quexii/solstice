@@ -1,25 +1,23 @@
 package cc.lapiz.solstice.core.ui
 
-import cc.lapiz.solstice.core.ui.widget.*
+import cc.lapiz.solstice.core.ui.style.Alignment
+import cc.lapiz.solstice.core.ui.style.Arrangement
+import cc.lapiz.solstice.core.ui.style.Padding
+import cc.lapiz.solstice.core.ui.style.Modifier
+import cc.lapiz.solstice.core.ui.widget.Widget
 
-fun Widget.widget(
-	x: Float,
-	y: Float,
-	width: Float,
-	height: Float,
-	init: Widget.() -> Unit
-): Widget {
-	val widget = Widget(x, y, width, height)
-	widget.init()
-	this.add(widget)
-	return widget
+fun Root(modifier: Modifier = Modifier, alignment: Alignment = Alignment.TopStart, arrangement: Arrangement = Arrangement.Vertical, init: Widget.() -> Unit): Widget = object : Widget(modifier, alignment, arrangement, Padding()) {
+	init {
+		init()
+	}
 }
 
-fun Widget.button(
-	label: String,
-	x: Float,
-	y: Float,
-	width: Float,
-	height: Float,
-	onClick: () -> Unit
-) = this.add(Button(label, x, y, width, height, onClick))
+fun Widget.Box(modifier: Modifier = Modifier, alignment: Alignment = Alignment.TopStart, arrangement: Arrangement = Arrangement.Vertical, padding: Padding = Padding(), init: Widget.() -> Unit = {}) {
+	val box = object : Widget(modifier, alignment, arrangement, padding) {
+		init {
+			init()
+		}
+	}
+	addChild(box)
+	markDirty()
+}

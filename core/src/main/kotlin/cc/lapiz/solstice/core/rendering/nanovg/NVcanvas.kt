@@ -1,6 +1,7 @@
 package cc.lapiz.solstice.core.rendering.nanovg
 
 import cc.lapiz.solstice.core.font.FontFace
+import cc.lapiz.solstice.core.rendering.RenderSystem
 import org.lwjgl.nanovg.*
 import java.nio.*
 
@@ -123,6 +124,22 @@ import java.nio.*
 		nvFill()
 	}
 
+	fun strokeRect(x: Float, y: Float, w: Float, h: Float, color: NVGColor, strokeWidth: Float) {
+		nvBeginPath()
+		nvRect(x, y, w, h)
+		nvStrokeColor(color)
+		nvStrokeWidth(strokeWidth)
+		nvStroke()
+	}
+
+	fun strokeRect(x: Float, y: Float, w: Float, h: Float, color: NVGPaint, strokeWidth: Float) {
+		nvBeginPath()
+		nvRect(x, y, w, h)
+		nvStrokePaint(color)
+		nvStrokeWidth(strokeWidth)
+		nvStroke()
+	}
+
 	fun roundedRect(x: Float, y: Float, w: Float, h: Float, r: Float, color: NVGColor) {
 		nvBeginPath()
 		nvRoundedRect(x, y, w, h, r)
@@ -137,7 +154,23 @@ import java.nio.*
 		nvFill()
 	}
 
-	fun text(x: Float, y: Float, text: String, size: Float, blur: Float, color: NVGColor, face: FontFace, align: Align = Align.LeftTop) {
+	fun strokeRoundedRect(x: Float, y: Float, w: Float, h: Float, r: Float, color: NVGColor, strokeWidth: Float) {
+		nvBeginPath()
+		nvRoundedRect(x, y, w, h, r)
+		nvStrokeColor(color)
+		nvStrokeWidth(strokeWidth)
+		nvStroke()
+	}
+
+	fun strokeRoundedRect(x: Float, y: Float, w: Float, h: Float, r: Float, color: NVGPaint, strokeWidth: Float) {
+		nvBeginPath()
+		nvRoundedRect(x, y, w, h, r)
+		nvStrokePaint(color)
+		nvStrokeWidth(strokeWidth)
+		nvStroke()
+	}
+
+	fun text(x: Float, y: Float, text: String, size: Float, blur: Float, color: NVGColor, face: FontFace = RenderSystem.DefaultFont.Default, align: Align = Align.LeftTop) {
 		nvFontSize(size)
 		nvFontBlur(blur)
 		nvTextAlign(align.value)
@@ -146,7 +179,7 @@ import java.nio.*
 		nvText(x, y, text)
 	}
 
-	fun text(x: Float, y: Float, text: String, color: NVGColor, face: FontFace, align: Align = Align.LeftTop) {
-		text(x, y, text, 21f, 0f, color, face, align)
+	fun text(x: Float, y: Float, text: String, color: NVGColor, size: Float = 21f, face: FontFace = RenderSystem.DefaultFont.Default, align: Align = Align.LeftTop) {
+		text(x, y, text, size, 0f, color, face, align)
 	}
 }

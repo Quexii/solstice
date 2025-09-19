@@ -20,3 +20,11 @@ sealed class WindowEvent : Event {
 	data class Move(val x: Int, val y: Int) : WindowEvent()
 	data class Focus(val focused: Boolean) : WindowEvent()
 }
+
+fun isMouseEvent(event: Event): Boolean {
+	return event is InputEvent.MouseMove || event is InputEvent.MousePress || event is InputEvent.MouseRelease || event is InputEvent.MouseScroll
+}
+
+fun isKeyEvent(event: Event): Boolean {
+	return event is InputEvent.KeyPress || event is InputEvent.KeyRelease || event is InputEvent.KeyType
+}

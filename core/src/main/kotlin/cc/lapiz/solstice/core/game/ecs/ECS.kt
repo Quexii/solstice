@@ -38,4 +38,11 @@ class ECS {
     }
 
     fun allEntities(): Set<Entity> = entities
+
+	fun clear() {
+		entities.clear()
+		stores.clear()
+		systems.clear()
+		nextEntity = 0
+	}
 }
