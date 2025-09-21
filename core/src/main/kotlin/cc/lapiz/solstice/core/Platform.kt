@@ -3,6 +3,8 @@ package cc.lapiz.solstice.core
 import cc.lapiz.solstice.core.event.*
 import cc.lapiz.solstice.core.game.SceneManager
 import cc.lapiz.solstice.core.game.scenes.main.MainScene
+import cc.lapiz.solstice.core.input.Input
+import cc.lapiz.solstice.core.input.Keys
 import cc.lapiz.solstice.core.rendering.*
 import cc.lapiz.solstice.core.rendering.nanovg.NVcanvas
 import cc.lapiz.solstice.core.time.*
@@ -22,6 +24,8 @@ open class Platform {
 
 	protected fun update(delta: Float) {
 		SceneManager.update(delta)
+
+		Props.DEBUG = Input.isKeyPressed(Keys.F3)
 	}
 
 	protected fun event(event: Event) {

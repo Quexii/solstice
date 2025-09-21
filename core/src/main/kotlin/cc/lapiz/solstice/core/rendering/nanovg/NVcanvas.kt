@@ -170,16 +170,16 @@ import java.nio.*
 		nvStroke()
 	}
 
-	fun text(x: Float, y: Float, text: String, size: Float, blur: Float, color: NVGColor, face: FontFace = RenderSystem.DefaultFont.Default, align: Align = Align.LeftTop) {
+	fun text(x: Float, y: Float, text: String, size: Float, blur: Float, color: NVGColor, face: FontFace = RenderSystem.DefaultFont.Default, textAlign: TextAlign = TextAlign.LeftTop) {
 		nvFontSize(size)
 		nvFontBlur(blur)
-		nvTextAlign(align.value)
+		nvTextAlign(textAlign.value)
 		nvFillColor(color)
 		nvTextFontFace(face.id)
 		nvText(x, y, text)
 	}
 
-	fun text(x: Float, y: Float, text: String, color: NVGColor, size: Float = 21f, face: FontFace = RenderSystem.DefaultFont.Default, align: Align = Align.LeftTop) {
-		text(x, y, text, size, 0f, color, face, align)
+	fun text(x: Float, y: Float, text: String, color: NVGColor, size: Float = 21f, face: FontFace = RenderSystem.DefaultFont.Default, textAlign: TextAlign = TextAlign.LeftTop) {
+		text(x, y, text, size, 0f, color, face, textAlign)
 	}
 }

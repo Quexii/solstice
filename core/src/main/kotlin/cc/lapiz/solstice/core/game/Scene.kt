@@ -2,30 +2,40 @@ package cc.lapiz.solstice.core.game
 
 import cc.lapiz.solstice.core.event.*
 import cc.lapiz.solstice.core.game.ecs.*
-import cc.lapiz.solstice.core.ui.widget.Widget
-import cc.lapiz.solstice.core.window.Window
+import cc.lapiz.solstice.core.ui.UI
+import cc.lapiz.solstice.core.ui.UIElement
 
 abstract class Scene {
 	val esc = ECS()
+	private val ui = UI()
 
-	abstract val ui: Widget
+	open fun initUI():  UIElement? {
+		return null
+	}
 
 	open fun onEnter() {
-		resize(Window.width(), Window.height())
+		initUI()?.let { ui.setContent(it) }
 	}
 
 	open fun onExit() {
 		esc.clear()
 	}
-	open fun update(delta: Float) {}
+
+	open fun update(delta: Float) {
+		ui.update(delta)
+	}
+
 	open fun render() {}
+
 	open fun onEvent(evnet: Event) {
 		ui.onEvent(evnet)
 	}
+
 	open fun resize(width: Int, height: Int) {
 		ui.resize(width.toFloat(), height.toFloat())
 	}
+
 	open fun nanovg() {
-		ui.draw()
+		ui.render()
 	}
 }

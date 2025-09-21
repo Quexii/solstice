@@ -2,7 +2,7 @@ package cc.lapiz.solstice.core.rendering.nanovg
 
 import org.lwjgl.nanovg.NanoVG
 
-enum class Align(val value: Int) {
+enum class TextAlign(val value: Int) {
 	LeftTop(NanoVG.NVG_ALIGN_LEFT or NanoVG.NVG_ALIGN_TOP),
 	LeftMiddle(NanoVG.NVG_ALIGN_LEFT or NanoVG.NVG_ALIGN_MIDDLE),
 	LeftBottom(NanoVG.NVG_ALIGN_LEFT or NanoVG.NVG_ALIGN_BOTTOM),

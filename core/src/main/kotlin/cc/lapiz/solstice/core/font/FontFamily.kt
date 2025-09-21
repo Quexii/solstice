@@ -4,6 +4,7 @@ import cc.lapiz.solstice.core.rendering.nanovg.NVcanvas
 import cc.lapiz.solstice.core.resource.*
 import cc.lapiz.solstice.core.serialization.*
 import cc.lapiz.solstice.core.utils.logger
+import java.nio.ByteBuffer
 
 class FontFamily(private val layout: FontLayout) {
 	val name = layout.name
@@ -12,6 +13,7 @@ class FontFamily(private val layout: FontLayout) {
 	val path = layout.path
 
 	private val faces = mutableMapOf<String, FontFace>()
+	private val data = mutableMapOf<String, ByteBuffer>()
 
 	private val LOGGER = logger(this::class.java)
 
@@ -30,7 +32,6 @@ class FontFamily(private val layout: FontLayout) {
 		license = IO.getText("$path$license")
 
 		layout.fonts.forEach {
-			val data = IO.getBuffer("$path${it.file}")
 			val name = name.lowercase() + "-" + it.face.lowercase()
 			val weight = when (it.face.lowercase()) {
 				"thin" -> FontWeight.THIN
@@ -52,7 +53,8 @@ class FontFamily(private val layout: FontLayout) {
 			faces[it.face] = FontFace(weight, name)
 			LOGGER.info("Loading font face: $name with weight: $weight")
 
-			if (!NVcanvas.initFont(name, data)) {
+			data[it.face] = IO.getBuffer("$path${it.file}")
+			if (!NVcanvas.initFont(name, data[it.face]!!)) {
 				throw RuntimeException("Failed to load font: $name")
 			}
 		}
