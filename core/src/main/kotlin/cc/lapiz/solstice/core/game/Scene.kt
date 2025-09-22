@@ -6,7 +6,7 @@ import cc.lapiz.solstice.core.ui.UI
 import cc.lapiz.solstice.core.ui.UIElement
 
 abstract class Scene {
-	val esc = ECS()
+	val ecs = ECS()
 	private val ui = UI()
 
 	open fun initUI():  UIElement? {
@@ -18,14 +18,17 @@ abstract class Scene {
 	}
 
 	open fun onExit() {
-		esc.clear()
+		ecs.clear()
 	}
 
 	open fun update(delta: Float) {
 		ui.update(delta)
+		ecs.update(delta)
 	}
 
-	open fun render() {}
+	open fun render() {
+		ecs.render()
+	}
 
 	open fun onEvent(evnet: Event) {
 		ui.onEvent(evnet)

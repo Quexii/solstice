@@ -45,6 +45,22 @@ class Camera {
 		projectionMatrix.get(projectionBuffer)
 	}
 
+	fun screenToWorld(sx: Float, sy: Float): Vector2f {
+		val ndcX = (2f * sx) / Window.width() - 1f
+		val ndcY = 1f - (2f * sy) / Window.height()
+		val clipCoords = Vector4f(ndcX, ndcY, -1f, 1f)
+
+		val invProj = Matrix4f(projectionMatrix).invert()
+		val eyeCoords = invProj.transform(clipCoords)
+		eyeCoords.z = -1f
+		eyeCoords.w = 0f
+
+		val invView = Matrix4f().identity().rotateZ(-rotation).translate(-position.x, -position.y, 0f).invert()
+		val worldCoords = invView.transform(eyeCoords)
+
+		return Vector2f(worldCoords.x, worldCoords.y)
+	}
+
 	fun rotateBy(angle: Float) {
 		rotation += angle
 	}

@@ -55,4 +55,5 @@ interface Functions {
 	fun drawElementsInstanced(mode: Int, count: Int, type: Int, indices: Long, instanceCount: Int)
 	fun drawArrays(mode: Int, first: Int, count: Int)
 	fun drawArraysInstanced(mode: Int, first: Int, count: Int, instanceCount: Int)
+
 }

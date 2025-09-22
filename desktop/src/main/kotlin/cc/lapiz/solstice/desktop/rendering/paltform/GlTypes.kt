@@ -134,8 +134,12 @@ class GlTypes : Types {
 		get() = GL33C.GL_NEAREST_MIPMAP_NEAREST
 	override val RGBA: Int
 		get() = GL33C.GL_RGBA
+	override val RGBA8: Int
+		get() = GL33C.GL_RGBA8
 	override val RGB: Int
 		get() = GL33C.GL_RGB
+	override val RGB8: Int
+		get() = GL33C.GL_RGB8
 	override val COLOR_ATTACHMENT0: Int
 		get() = GL33C.GL_COLOR_ATTACHMENT0
 	override val DEPTH_ATTACHMENT: Int

@@ -22,6 +22,10 @@
     {
       "name": "Texture",
       "type": "sampler2D"
+    },
+    {
+      "name": "Color",
+      "type": "vec4"
     }
   ],
   "attributes": [
@@ -30,8 +34,8 @@
       "type": "vec2"
     },
     {
-      "name": "Color",
-      "type": "vec4"
+      "name": "TexCoord",
+      "type": "vec2"
     }
   ]
 }

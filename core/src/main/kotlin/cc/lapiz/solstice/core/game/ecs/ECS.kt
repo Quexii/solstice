@@ -37,6 +37,10 @@ class ECS {
         systems.forEach { it.update(this, dt) }
     }
 
+	fun render() {
+		systems.forEach { it.render(this) }
+	}
+
     fun allEntities(): Set<Entity> = entities
 
 	fun clear() {

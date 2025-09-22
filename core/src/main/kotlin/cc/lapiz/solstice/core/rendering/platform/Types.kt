@@ -87,7 +87,9 @@ interface Types {
 	val NEAREST_MIPMAP_LINEAR: Int
 	val NEAREST_MIPMAP_NEAREST: Int
 	val RGBA: Int
+	val RGBA8: Int
 	val RGB: Int
+	val RGB8: Int
 
 	// Framebuffer attachments
 	val COLOR_ATTACHMENT0: Int

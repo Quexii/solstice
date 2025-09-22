@@ -2,11 +2,14 @@ package cc.lapiz.solstice.core
 
 import cc.lapiz.solstice.core.event.*
 import cc.lapiz.solstice.core.game.SceneManager
+import cc.lapiz.solstice.core.game.scenes.game.GameScene
 import cc.lapiz.solstice.core.game.scenes.main.MainScene
 import cc.lapiz.solstice.core.input.Input
 import cc.lapiz.solstice.core.input.Keys
 import cc.lapiz.solstice.core.rendering.*
 import cc.lapiz.solstice.core.rendering.nanovg.NVcanvas
+import cc.lapiz.solstice.core.resource.ResourceManager
+import cc.lapiz.solstice.core.resource.impl.SpriteResource
 import cc.lapiz.solstice.core.time.*
 import cc.lapiz.solstice.core.utils.*
 import cc.lapiz.solstice.core.window.*
@@ -19,10 +22,14 @@ open class Platform {
 
 	open fun start() {
 		RenderSystem.init()
-		SceneManager.setScene(MainScene())
+
+		ResourceManager.load(SpriteResource("base_unit", "Base Unit", "sprites/base_unit.png"))
+
+		SceneManager.setScene(GameScene())
 	}
 
 	protected fun update(delta: Float) {
+		RenderSystem.Camera.projectWorld()
 		SceneManager.update(delta)
 
 		Props.DEBUG = Input.isKeyPressed(Keys.F3)

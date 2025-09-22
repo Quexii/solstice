@@ -11,7 +11,7 @@ object RenderSystem {
 	private var currentShader: Shader? = null
 	private var defaultFont: FontFamily? = null
 	private var camera = Camera()
-	private val transform = Transform()
+	private val globalBuilder = MeshBuilder()
 
 	val Camera: Camera get() = camera
 	val DefaultFont get() = defaultFont ?: throw IllegalStateException("Default font not initialized!")
@@ -30,11 +30,14 @@ object RenderSystem {
 
 	fun currentShader(): Shader? = currentShader
 
-	fun renderMesh(mesh: Mesh) {
+	fun getBuilder(): MeshBuilder = globalBuilder
+
+	fun renderMesh(mesh: Mesh, transform: Transform, extraUniforms: UniformScope.() -> Unit = {}) {
 		currentShader?.use {
 			uniform {
 				mat4("ProjMatrix", camera.projectionBuffer)
 				mat4("ModelMatrix", transform.store())
+				extraUniforms()
 			}
 			mesh.render()
 		}

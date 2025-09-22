@@ -7,19 +7,20 @@ import org.slf4j.LoggerFactory
 object ShaderManager {
 	private val LOGGER = LoggerFactory.getLogger(ShaderManager::class.java)
 
-	val shaderFillRes = ShaderResource("shader_fill", "Fill Shader", "links/sh-fill.json")
+	private val shaderFillRes = ShaderResource("shader_fill", "Fill Shader", "links/sh-fill.json")
+	private val shaderSpriteRes = ShaderResource("shader_sprite", "Sprite Shader", "links/sh-sprite.json")
 
-	//	val shaderTextureRes = ShaderResource("shader_texture", "Texture Shader", "links/texture.json")
 	lateinit var FillShader: Shader
 		private set
 
-	lateinit var TestShader: Shader
+	lateinit var SpriteShader: Shader
 		private set
 
 	fun loadShaders() {
 		LOGGER.info("Loading shaders...")
 
 		FillShader = loadShader(shaderFillRes)
+		SpriteShader = loadShader(shaderSpriteRes)
 
 		LOGGER.info("Loaded shaders.")
 	}

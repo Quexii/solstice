@@ -43,4 +43,10 @@ class UniformScope(private val uniformMap: Map<String, Uniform>) {
 		require(uniformMap[name]!!.type == "int") { "Uniform '$name' is not of type int!" }
 		Graphics.uniform1i(getLocation(name), value)
 	}
+
+	fun sampler2D(name: String, unit: Int) {
+		require(hasUniform(name)) { "Uniform '$name' not found!" }
+		require(uniformMap[name]!!.type == "sampler2D") { "Uniform '$name' is not of type sampler2D!" }
+		Graphics.uniform1i(getLocation(name), unit)
+	}
 }
