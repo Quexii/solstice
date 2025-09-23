@@ -8,9 +8,11 @@ import cc.lapiz.solstice.core.input.Input
 import cc.lapiz.solstice.core.input.Keys
 import cc.lapiz.solstice.core.rendering.*
 import cc.lapiz.solstice.core.rendering.nanovg.NVcanvas
+import cc.lapiz.solstice.core.rendering.platform.Graphics
 import cc.lapiz.solstice.core.resource.ResourceManager
 import cc.lapiz.solstice.core.resource.impl.SpriteResource
 import cc.lapiz.solstice.core.time.*
+import cc.lapiz.solstice.core.ui.Colors
 import cc.lapiz.solstice.core.utils.*
 import cc.lapiz.solstice.core.window.*
 
@@ -41,10 +43,13 @@ open class Platform {
 	}
 
 	protected fun render() {
+		RenderSystem.clear(0.1f, 0.1f, 0.1f, 1f)
+		RenderSystem.enableAlpha()
 		RenderSystem.Camera.projectWorld()
 		SceneManager.render()
 		NVcanvas.beginFrame(Window.width().toFloat(), Window.height().toFloat(), 1f)
 		SceneManager.ui()
+		if (Props.DEBUG) NVcanvas.text(4f, 4f, "FPS: ${(1f / timer.deltaTime).toInt()}", Colors.TextPrimary, 12f)
 		NVcanvas.endFrame()
 	}
 }

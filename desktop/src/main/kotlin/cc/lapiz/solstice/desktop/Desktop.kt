@@ -30,8 +30,6 @@ class Desktop : Platform() {
 		window.run { handle ->
 			timer.update()
 			update(timer.deltaTime)
-			Graphics.clearColor(0.1f, 0.1f, 0.1f, 0f)
-			Graphics.clear(Graphics.COLOR_BUFFER_BIT)
 			glfwPollEvents()
 			Events.Queue.poll()?.let { event(it) }
 			render()

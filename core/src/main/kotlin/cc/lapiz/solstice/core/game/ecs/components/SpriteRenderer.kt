@@ -1,5 +1,6 @@
 package cc.lapiz.solstice.core.game.ecs.components
 
+import cc.lapiz.solstice.core.data.Transform
 import cc.lapiz.solstice.core.rendering.pipeline.mesh.*
 import cc.lapiz.solstice.core.rendering.pipeline.shader.UniformScope
 import cc.lapiz.solstice.core.rendering.platform.Graphics
@@ -31,7 +32,7 @@ class SpriteRenderer: Renderer() {
 		Graphics.bindTexture(Graphics.TEXTURE_2D, textureId)
 	}
 
-	override fun uniforms(scope: UniformScope) {
+	override fun uniforms(scope: UniformScope, transform: Transform) {
 		scope.sampler2D("Texture", 0)
 		scope.vec4("Color", shaderColor[0], shaderColor[1], shaderColor[2], shaderColor[3])
 	}

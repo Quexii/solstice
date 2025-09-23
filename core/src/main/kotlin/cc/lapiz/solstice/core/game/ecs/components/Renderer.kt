@@ -8,7 +8,7 @@ import cc.lapiz.solstice.core.rendering.pipeline.shader.*
 abstract class Renderer {
 	abstract fun makeMesh(): Mesh
 	open fun preRender() {}
-	open fun uniforms(scope: UniformScope) {}
+	open fun uniforms(scope: UniformScope, transform: Transform) {}
 	open fun posRender() {}
 	protected val builder = RenderSystem.getBuilder()
 	var shader: Shader? = null
@@ -24,7 +24,8 @@ abstract class Renderer {
 		shader?.let {
 			RenderSystem.setShader { it }
 		}
-		RenderSystem.renderMesh(mesh, transform, ::uniforms)
+		val uniforms: UniformScope.() -> Unit = { uniforms(this, transform) }
+		RenderSystem.renderMesh(mesh, transform, uniforms)
 		posRender()
 	}
 }

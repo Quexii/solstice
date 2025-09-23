@@ -30,8 +30,8 @@ abstract class Scene {
 		ecs.render()
 	}
 
-	open fun onEvent(evnet: Event) {
-		ui.onEvent(evnet)
+	open fun onEvent(event: Event) {
+		ui.onEvent(event)
 	}
 
 	open fun resize(width: Int, height: Int) {

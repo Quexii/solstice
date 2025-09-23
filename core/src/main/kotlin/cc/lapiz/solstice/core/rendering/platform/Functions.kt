@@ -55,5 +55,12 @@ interface Functions {
 	fun drawElementsInstanced(mode: Int, count: Int, type: Int, indices: Long, instanceCount: Int)
 	fun drawArrays(mode: Int, first: Int, count: Int)
 	fun drawArraysInstanced(mode: Int, first: Int, count: Int, instanceCount: Int)
-
+	fun blendFunc(sfactor: Int, dfactor: Int)
+	fun blendFuncSeparate(sfactorRGB: Int, dfactorRGB: Int, sfactorAlpha: Int, dfactorAlpha: Int)
+	fun stencilFunc(func: Int, ref: Int, mask: Int)
+	fun stencilOp(fail: Int, zfail: Int, zpass: Int)
+	fun stencilMask(mask: Int)
+	fun depthFunc(func: Int)
+	fun depthMask(flag: Boolean)
+	fun getError(): Int
 }

@@ -182,4 +182,20 @@ import java.nio.*
 	fun text(x: Float, y: Float, text: String, color: NVGColor, size: Float = 21f, face: FontFace = RenderSystem.DefaultFont.Default, textAlign: TextAlign = TextAlign.LeftTop) {
 		text(x, y, text, size, 0f, color, face, textAlign)
 	}
+
+	fun strokeLine(x0: Float, y0: Float, x1: Float, y1: Float, color: NVGColor, strokeWidth: Float) {
+		nvBeginPath()
+		nvMoveTo(x0, y0)
+		nvLineTo(x1, y1)
+		nvStrokeColor(color)
+		nvStrokeWidth(strokeWidth)
+		nvStroke()
+	}
+
+	fun circle(cx: Float, cy: Float, r: Float, color: NVGColor) {
+		nvBeginPath()
+		nvCircle(cx, cy, r)
+		nvFillColor(color)
+		nvFill()
+	}
 }

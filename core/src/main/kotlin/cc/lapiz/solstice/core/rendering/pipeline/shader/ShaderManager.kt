@@ -9,6 +9,7 @@ object ShaderManager {
 
 	private val shaderFillRes = ShaderResource("shader_fill", "Fill Shader", "links/sh-fill.json")
 	private val shaderSpriteRes = ShaderResource("shader_sprite", "Sprite Shader", "links/sh-sprite.json")
+	 private val shaderCircleRes = ShaderResource("shader_circle", "Circle Shader", "links/sh-circle.json")
 
 	lateinit var FillShader: Shader
 		private set
@@ -16,11 +17,15 @@ object ShaderManager {
 	lateinit var SpriteShader: Shader
 		private set
 
+	lateinit var CircleShader: Shader
+		private set
+
 	fun loadShaders() {
 		LOGGER.info("Loading shaders...")
 
 		FillShader = loadShader(shaderFillRes)
 		SpriteShader = loadShader(shaderSpriteRes)
+		CircleShader = loadShader(shaderCircleRes)
 
 		LOGGER.info("Loaded shaders.")
 	}

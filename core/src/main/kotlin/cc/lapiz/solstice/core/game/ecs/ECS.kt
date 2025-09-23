@@ -42,6 +42,7 @@ class ECS {
 	}
 
     fun allEntities(): Set<Entity> = entities
+	fun allComponents(entity: Entity): List<Any> = stores.values.mapNotNull { it[entity] }
 
 	fun clear() {
 		entities.clear()
@@ -49,4 +50,19 @@ class ECS {
 		systems.clear()
 		nextEntity = 0
 	}
+
+	fun hasComponent(entity: Entity, componentClass: Class<out Any>): Boolean {
+		val store = stores[componentClass] ?: return false
+		return store.has(entity)
+	}
+
+	fun query(vararg componentClasses: Class<out Any>): List<EntityQuery> {
+		return allEntities().mapNotNull { entityId ->
+			val hasAll = componentClasses.all { componentClass ->
+				hasComponent(entityId, componentClass)
+			}
+			if (hasAll) EntityQuery(entityId, this) else null
+		}
+	}
+
 }

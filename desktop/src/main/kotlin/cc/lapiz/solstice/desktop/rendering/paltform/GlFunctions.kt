@@ -203,4 +203,36 @@ class GlFunctions : Functions {
 	override fun drawArraysInstanced(mode: Int, first: Int, count: Int, instanceCount: Int) {
 		GL33C.glDrawArraysInstanced(mode, first, count, instanceCount)
 	}
+
+	override fun blendFunc(sfactor: Int, dfactor: Int) {
+		GL33C.glBlendFunc(sfactor, dfactor)
+	}
+
+	override fun blendFuncSeparate(sfactorRGB: Int, dfactorRGB: Int, sfactorAlpha: Int, dfactorAlpha: Int) {
+		GL33C.glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha)
+	}
+
+	override fun stencilFunc(func: Int, ref: Int, mask: Int) {
+		GL33C.glStencilFunc(func, ref, mask)
+	}
+
+	override fun stencilOp(fail: Int, zfail: Int, zpass: Int) {
+		GL33C.glStencilOp(fail, zfail, zpass)
+	}
+
+	override fun stencilMask(mask: Int) {
+		GL33C.glStencilMask(mask)
+	}
+
+	override fun depthFunc(func: Int) {
+		GL33C.glDepthFunc(func)
+	}
+
+	override fun depthMask(flag: Boolean) {
+		GL33C.glDepthMask(flag)
+	}
+
+	override fun getError(): Int {
+		return GL33C.glGetError()
+	}
 }
