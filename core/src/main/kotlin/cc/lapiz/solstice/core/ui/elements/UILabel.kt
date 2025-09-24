@@ -11,8 +11,7 @@ import org.lwjgl.system.*
 import kotlin.properties.*
 
 class UILabel(attrib: Attrib, initialText: String, var fontFace: FontFace, var fontSize: Float, var textColor: NVGColor) : UIElement(attrib) {
-
-	private var text by Delegates.observable(initialText) { _, _, newValue ->
+	var text by Delegates.observable(initialText) { _, _, newValue ->
 		calcTextSize(newValue)
 	}
 

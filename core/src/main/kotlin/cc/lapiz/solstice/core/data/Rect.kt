@@ -1,5 +1,8 @@
 package cc.lapiz.solstice.core.data
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Rect(
 	var x: Float,
 	var y: Float,

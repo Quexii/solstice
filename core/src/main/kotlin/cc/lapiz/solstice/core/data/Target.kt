@@ -1,5 +1,6 @@
 package cc.lapiz.solstice.core.data
 
-import org.joml.Vector2f
+import kotlinx.serialization.*
 
-class Target(val id: Int, val position: Vector2f)
+@Serializable
+class Target(val id: Int, var x: Float, var y: Float)

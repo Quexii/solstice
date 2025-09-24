@@ -151,12 +151,6 @@ class UIStack(attrib: Attrib, val spacing: Float, val direction: Direction, val 
 		}
 	}
 
-	fun layoutIfNeeded() {
-		updateLayout()
-		children.forEach { (it as? UIStack)?.layoutIfNeeded() }
-	}
-
-
 	override fun draw() {
 		if (Props.DEBUG) {
 			NVcanvas.strokeRect(properties.position.x, properties.position.y, properties.size.width, properties.size.height, Colors.Debug.Blue, 1f)

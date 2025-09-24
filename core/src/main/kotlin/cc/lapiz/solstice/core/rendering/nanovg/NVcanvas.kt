@@ -109,6 +109,7 @@ import java.nio.*
 	fun nvTextBounds(text: String, bounds: FloatBuffer) = NanoVG.nvgTextBounds(context, 0f, 0f, text, bounds)
 	fun nvTextBounds(x: Float, y: Float, text: String, bounds: FloatBuffer) = NanoVG.nvgTextBounds(context, x, y, text, bounds)
 	fun nvTextBoxBounds(x: Float, y: Float, breakRowWidth: Float, text: String, bounds: FloatBuffer) = NanoVG.nvgTextBoxBounds(context, x, y, breakRowWidth, text, bounds)
+	fun nvLerpRGBA(c0: NVGColor, c1: NVGColor, u: Float, dest: NVGColor) = NanoVG.nvgLerpRGBA(c0, c1, u, dest)
 
 	fun rect(x: Float, y: Float, w: Float, h: Float, color: NVGColor) {
 		nvBeginPath()

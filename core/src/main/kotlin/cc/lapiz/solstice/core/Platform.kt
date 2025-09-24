@@ -27,7 +27,7 @@ open class Platform {
 
 		ResourceManager.load(SpriteResource("base_unit", "Base Unit", "sprites/base_unit.png"))
 
-		SceneManager.setScene(GameScene())
+		SceneManager.setScene(MainScene())
 	}
 
 	protected fun update(delta: Float) {

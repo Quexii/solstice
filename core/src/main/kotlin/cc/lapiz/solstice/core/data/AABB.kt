@@ -1,6 +1,6 @@
 package cc.lapiz.solstice.core.data
 
-import org.joml.Vector2f
+import org.joml.*
 
 data class AABB(val min: Vector2f, val max: Vector2f) {
     fun intersects(other: AABB): Boolean {

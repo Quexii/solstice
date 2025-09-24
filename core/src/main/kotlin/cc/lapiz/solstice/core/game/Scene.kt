@@ -1,9 +1,10 @@
 package cc.lapiz.solstice.core.game
 
 import cc.lapiz.solstice.core.event.*
-import cc.lapiz.solstice.core.game.ecs.*
+import cc.lapiz.solstice.core.game.ecs.entity.ECS
 import cc.lapiz.solstice.core.ui.UI
 import cc.lapiz.solstice.core.ui.UIElement
+import kotlin.properties.ReadWriteProperty
 
 abstract class Scene {
 	val ecs = ECS()
@@ -18,16 +19,13 @@ abstract class Scene {
 	}
 
 	open fun onExit() {
-		ecs.clear()
 	}
 
 	open fun update(delta: Float) {
 		ui.update(delta)
-		ecs.update(delta)
 	}
 
 	open fun render() {
-		ecs.render()
 	}
 
 	open fun onEvent(event: Event) {

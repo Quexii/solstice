@@ -3,13 +3,14 @@ package cc.lapiz.solstice.core.ui
 import cc.lapiz.solstice.core.event.*
 import cc.lapiz.solstice.core.ui.elements.*
 import cc.lapiz.solstice.core.ui.properties.*
+import cc.lapiz.solstice.core.ui.react.UIState
 
 class UI() {
 	private var content: UIElement? = null
 
 	fun setContent(element: UIElement) {
 		content = element
-		layoutRecursively(element)
+		element.layoutRecursively()
 	}
 
 	private fun collectAllElements(element: UIElement, list: MutableList<UIElement>) {
@@ -18,16 +19,6 @@ class UI() {
 			collectAllElements(child, list)
 		}
 	}
-
-	private fun layoutRecursively(element: UIElement) {
-		if (element is UIStack) {
-			element.layoutIfNeeded()
-		}
-		element.children.forEach { child ->
-			layoutRecursively(child)
-		}
-	}
-
 
 	fun update(delta: Float) {
 		content?.update(delta)
