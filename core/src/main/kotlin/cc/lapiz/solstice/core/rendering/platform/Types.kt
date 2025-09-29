@@ -24,10 +24,17 @@ interface Types {
 
 	// Primitive types
 	val TRIANGLES: Int
+	val TRIANGLE_FAN: Int
 	val TRIANGLE_STRIP: Int
 	val LINES: Int
 	val LINE_STRIP: Int
+	val LINE_LOOP: Int
 	val POINTS: Int
+
+	// Polygon modes
+	val FILL: Int
+	val LINE: Int
+	val POINT: Int
 
 	// Flags
 	val DEPTH_TEST: Int

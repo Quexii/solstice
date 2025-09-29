@@ -10,8 +10,8 @@ class Transform {
 	var position = Vector2f()
 	var scale = Vector2f(1f, 1f)
 	var rotation = 0f
+	var z = 0f
 
-	// hierarchy
 	var parent: Transform? = null
 	private val children = mutableListOf<Transform>()
 
@@ -29,7 +29,7 @@ class Transform {
 
 	fun matrix(): Matrix4f {
 		val local = Matrix4f()
-			.translate(position.x, position.y, 0f)
+			.translate(position.x, position.y, z)
 			.rotateZ(Math.toRadians(rotation.toDouble()).toFloat())
 			.scale(scale.x, scale.y, 1f)
 

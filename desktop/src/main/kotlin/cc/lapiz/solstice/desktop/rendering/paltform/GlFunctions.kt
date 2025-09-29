@@ -161,6 +161,10 @@ class GlFunctions : Functions {
 		}
 	}
 
+	override fun bufferData(target: Int, data: Array<Float>, usage: Int) {
+		GL33C.glBufferData(target, data.toFloatArray(), usage)
+	}
+
 	override fun bufferSubData(target: Int, offset: Long, data: Buffer) {
 		when (data) {
 			is FloatBuffer -> GL33C.glBufferSubData(target, offset, data)
@@ -170,6 +174,10 @@ class GlFunctions : Functions {
 				throw IllegalArgumentException("Unsupported buffer type: ${data.javaClass}")
 			}
 		}
+	}
+
+	override fun bufferSubData(target: Int, offset: Long, data: Array<Float>) {
+		GL33C.glBufferSubData(target, offset, data.toFloatArray())
 	}
 
 	override fun vertexAttribPointer(index: Int, size: Int, type: Int, normalized: Boolean, stride: Int, offset: Long) {
@@ -234,5 +242,9 @@ class GlFunctions : Functions {
 
 	override fun getError(): Int {
 		return GL33C.glGetError()
+	}
+
+	override fun polygonMode(face: Int, mode: Int) {
+		GL33C.glPolygonMode(face, mode)
 	}
 }

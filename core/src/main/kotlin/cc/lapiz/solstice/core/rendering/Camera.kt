@@ -8,7 +8,7 @@ import java.nio.FloatBuffer
 class Camera {
 	private var position = Vector2f(0f, 0f)
 	private var rotation: Float = 0f
-	private var zoom: Float = 10f
+	private var zoom: Float = 15f
 	private val projectionMatrix = Matrix4f()
 	var projectionBuffer: FloatBuffer = BufferUtils.createFloatBuffer(16)
 
@@ -104,4 +104,10 @@ class Camera {
 	}
 
 	fun getProjectionMatrix() = projectionMatrix
+
+	val Zoom: Float
+		get() = zoom
+
+	val Position: Vector2f
+		get() = position
 }

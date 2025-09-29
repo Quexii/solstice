@@ -1,0 +1,41 @@
+{
+  "name": "sprite",
+  "shaders": [
+    {
+      "type": "vertex",
+      "file": "shaders/pos_uv.vert"
+    },
+    {
+      "type": "fragment",
+      "file": "shaders/sprite.frag"
+    }
+  ],
+  "uniforms": [
+    {
+      "name": "ProjMatrix",
+      "type": "mat4"
+    },
+    {
+      "name": "ModelMatrix",
+      "type": "mat4"
+    },
+    {
+      "name": "Texture",
+      "type": "sampler2D"
+    },
+    {
+      "name": "Color",
+      "type": "vec4"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "Position",
+      "type": "vec2"
+    },
+    {
+      "name": "TexCoord",
+      "type": "vec2"
+    }
+  ]
+}

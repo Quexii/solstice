@@ -46,7 +46,9 @@ interface Functions {
 	fun bindVertexArray(vao: Int)
 	fun bufferData(target: Int, data: Long, usage: Int)
 	fun bufferData(target: Int, data: Buffer, usage: Int)
+	fun bufferData(target: Int, data: Array<Float>, usage: Int)
 	fun bufferSubData(target: Int, offset: Long, data: Buffer)
+	fun bufferSubData(target: Int, offset: Long, data: Array<Float>)
 	fun vertexAttribPointer(index: Int, size: Int, type: Int, normalized: Boolean, stride: Int, offset: Long)
 	fun vertexAttribIPointer(index: Int, size: Int, type: Int, stride: Int, offset: Long)
 	fun vertexAttribDivisor(index: Int, divisor: Int)
@@ -63,4 +65,5 @@ interface Functions {
 	fun depthFunc(func: Int)
 	fun depthMask(flag: Boolean)
 	fun getError(): Int
+	fun polygonMode(face: Int, mode: Int)
 }

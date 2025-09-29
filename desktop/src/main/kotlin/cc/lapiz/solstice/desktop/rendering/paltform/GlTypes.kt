@@ -28,14 +28,24 @@ class GlTypes : Types {
 		get() = GL33C.GL_UNSIGNED_BYTE
 	override val TRIANGLES: Int
 		get() = GL33C.GL_TRIANGLES
+	override val TRIANGLE_FAN: Int
+		get() = GL33C.GL_TRIANGLE_FAN
 	override val TRIANGLE_STRIP: Int
 		get() = GL33C.GL_TRIANGLE_STRIP
 	override val LINES: Int
 		get() = GL33C.GL_LINES
 	override val LINE_STRIP: Int
 		get() = GL33C.GL_LINE_STRIP
+	override val LINE_LOOP: Int
+		get() = GL33C.GL_LINE_LOOP
 	override val POINTS: Int
 		get() = GL33C.GL_POINTS
+	override val FILL: Int
+		get() = GL33C.GL_FILL
+	override val LINE: Int
+		get() = GL33C.GL_LINE
+	override val POINT: Int
+		get() = GL33C.GL_POINT
 	override val DEPTH_TEST: Int
 		get() = GL33C.GL_DEPTH_TEST
 	override val BLEND: Int

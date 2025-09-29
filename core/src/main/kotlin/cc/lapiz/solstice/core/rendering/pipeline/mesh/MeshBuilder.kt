@@ -1,105 +1,85 @@
 package cc.lapiz.solstice.core.rendering.pipeline.mesh
 
-import cc.lapiz.solstice.core.rendering.*
 import cc.lapiz.solstice.core.rendering.pipeline.vertex.*
 import cc.lapiz.solstice.core.utils.*
+import java.nio.*
 
-private typealias Type = VertexAttributeType
-
-class MeshBuilder {
-	private var currentLayout: VertexLayout? = null
-	private lateinit var mode: Mesh.Mode
-	private lateinit var usage: Mesh.Usage
-	private val vertices = Buffers.createFloatBuffer(512)
-	private lateinit var tempBuffer: FloatArray
-	private var tempBufferIndex = 0
+class MeshBuilder(private val layout: VertexLayout, initialCapacity: Int = 1024) {
+	private var mode: Mesh.Mode? = null
+	private var usage: Mesh.Usage = Mesh.Usage.DYNAMIC
 	private var building = false
-	private var attributes: List<Type>? = null
+
+	private val buffer: FloatBuffer = Buffers.createFloatBuffer(initialCapacity)
+	private val tempBuffer: FloatArray
+	private var tempIndex = 0
 	private var attributeIndex = 0
 	private var vertexCount = 0
+	private val attributes = layout.getAttributes().map { it.type }
 
-	fun begin(mode: Mesh.Mode, usage: Mesh.Usage = Mesh.Usage.DYNAMIC) {
+	init {
+		tempBuffer = FloatArray(attributes.sumOf { it.componentCount })
+	}
+
+	fun begin(mode: Mesh.Mode, usage: Mesh.Usage = Mesh.Usage.DYNAMIC): MeshBuilder {
 		if (building) throw IllegalStateException("Already building a mesh!")
 		building = true
 		this.mode = mode
 		this.usage = usage
-		currentLayout = RenderSystem.currentShader()?.layout
-		vertices.clear()
-		attributes = currentLayout?.getAttributes()?.map { it.type }
-		val size = currentLayout?.getAttributes()?.sumOf { it.type.componentCount } ?: 0
-		tempBuffer = FloatArray(size)
-		tempBufferIndex = 0
-	}
-
-	fun pos(x: Float, y: Float): MeshBuilder {
-		if (check(Type.VEC2)) {
-			put(x)
-			put(y)
-		}
+		buffer.clear()
+		tempIndex = 0
+		attributeIndex = 0
+		vertexCount = 0
 		return this
 	}
 
-	fun color(r: Float, g: Float, b: Float, a: Float): MeshBuilder {
-		if (check(Type.VEC4)) {
-			put(r)
-			put(g)
-			put(b)
-			put(a)
+	private fun check(type: VertexAttributeType) {
+		if (!building) throw IllegalStateException("Not building!")
+		if (attributes[attributeIndex++] != type) {
+			throw IllegalStateException("Expected attribute $type")
 		}
+	}
+
+	fun pos(x: Float, y: Float): MeshBuilder {
+		check(VertexAttributeType.VEC2)
+		tempBuffer[tempIndex++] = x
+		tempBuffer[tempIndex++] = y
 		return this
 	}
 
 	fun tex(u: Float, v: Float): MeshBuilder {
-		if (check(Type.VEC2)) {
-			put(u)
-			put(v)
-		}
+		check(VertexAttributeType.VEC2)
+		tempBuffer[tempIndex++] = u
+		tempBuffer[tempIndex++] = v
+		return this
+	}
+
+	fun color(r: Float, g: Float, b: Float, a: Float): MeshBuilder {
+		check(VertexAttributeType.VEC4)
+		tempBuffer[tempIndex++] = r
+		tempBuffer[tempIndex++] = g
+		tempBuffer[tempIndex++] = b
+		tempBuffer[tempIndex++] = a
 		return this
 	}
 
 	fun endVertex(): MeshBuilder {
-		if (!building) throw IllegalStateException("Not building a mesh!")
-		if (currentLayout == null) throw IllegalStateException("No current vertex layout!")
-		if (attributes == null) throw IllegalStateException("No current attributes!")
-		if (attributeIndex != attributes!!.size) throw IllegalStateException("Not all attributes set! (${attributeIndex}/${attributes!!.size})")
-		vertices.put(tempBuffer)
-		tempBufferIndex = 0
+		buffer.put(tempBuffer, 0, tempIndex)
+		tempIndex = 0
 		attributeIndex = 0
 		vertexCount++
 		return this
 	}
 
-	private fun check(type: Type): Boolean {
-		if (!building) throw IllegalStateException("Not building a mesh!")
-		if (currentLayout == null) throw IllegalStateException("No current vertex layout!")
-		if (attributes == null) throw IllegalStateException("No current attributes!")
-		if (attributes!![attributeIndex++] != type) throw IllegalStateException("Expected attribute $type")
-		return true
-	}
-
-	private fun put(value: Float) {
-		tempBuffer[tempBufferIndex++] = value
-	}
-
 	fun build(): Mesh {
 		if (!building) throw IllegalStateException("Not building a mesh!")
-		if (currentLayout == null) throw IllegalStateException("No current vertex layout!")
-		if (attributes == null) throw IllegalStateException("No current attributes!")
-		if (attributeIndex != 0) throw IllegalStateException("Unfinished vertex! (${attributeIndex}/${attributes!!.size})")
 		building = false
-		vertices.flip()
-		val mesh = Mesh(mode, currentLayout!!, vertexCount, vertices, usage)
-		cleanup()
-		return mesh
+		buffer.flip()
+		return Mesh(mode!!, layout, vertexCount, buffer.toArray(), usage)
 	}
 
-	fun cleanup() {
-		if (building) throw IllegalStateException("Cannot clean up while building a mesh!")
-		vertices.clear()
-		vertexCount = 0
-		attributeIndex = 0
-		tempBufferIndex = 0
-		attributes = null
-		currentLayout = null
+	private fun FloatBuffer.toArray(): Array<Float> {
+		val arr = FloatArray(limit())
+		get(arr)
+		return arr.toTypedArray()
 	}
 }

@@ -12,15 +12,15 @@ object RenderSystem {
 	private var currentShader: Shader? = null
 	private var defaultFont: FontFamily? = null
 	private var camera = Camera()
-	private val globalBuilder = MeshBuilder()
 
 	val Camera: Camera get() = camera
 	val DefaultFont get() = defaultFont ?: throw IllegalStateException("Default font not initialized!")
 
 	fun init() {
 		ShaderManager.loadShaders()
+		Meshes.init()
 		camera.projectWorld()
-		val res = FontResource("font_default", "Default Font", "links/font-default.json")
+		val res = FontResource("font_default", "Default Font", "links/font_default.json")
 		ResourceManager.load(res)
 		defaultFont = FontFamily(res.layout)
 	}
@@ -30,8 +30,6 @@ object RenderSystem {
 	}
 
 	fun currentShader(): Shader? = currentShader
-
-	fun getBuilder(): MeshBuilder = globalBuilder
 
 	fun renderMesh(mesh: Mesh, transform: Transform, extraUniforms: UniformScope.() -> Unit = {}) {
 		currentShader?.use {
@@ -53,8 +51,21 @@ object RenderSystem {
 		Graphics.disable(Graphics.BLEND)
 	}
 
+	fun enableDepth() {
+		Graphics.enable(Graphics.DEPTH_TEST)
+	}
+
+	fun disableDepth() {
+		Graphics.disable(Graphics.DEPTH_TEST)
+	}
+
 	fun clear(r: Float, g: Float, b: Float, a: Float) {
 		Graphics.clearColor(r, g, b, a)
 		Graphics.clear(Graphics.COLOR_BUFFER_BIT or Graphics.DEPTH_BUFFER_BIT)
+	}
+
+	fun bindTexture(textureId: Int, unit: Int = 0) {
+		Graphics.activeTexture(Graphics.TEXTURE0 + unit)
+		Graphics.bindTexture(Graphics.TEXTURE_2D, textureId)
 	}
 }

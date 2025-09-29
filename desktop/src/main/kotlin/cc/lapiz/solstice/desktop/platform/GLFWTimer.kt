@@ -7,15 +7,24 @@ class GLFWTimer : Timer() {
 	private var lastTime: Double = glfwGetTime()
 	var totalTime: Double = 0.0
 		private set
+	var frameCount: Int = 0
+		private set
 
 	override fun update() {
 		val now = glfwGetTime()
 		var dt = now - lastTime
+		totalTime += dt
+		frameCount++
+
+		if (totalTime >= 1.0) {
+			fps = frameCount
+			frameCount = 0
+			totalTime -= 1.0
+		}
 
 		if (dt > 0.25) dt = 0.25
 
 		deltaTime = dt.toFloat()
-		totalTime += dt
 		lastTime = now
 	}
 }

@@ -4,11 +4,13 @@ import cc.lapiz.solstice.core.rendering.pipeline.vertex.VertexLayout
 import cc.lapiz.solstice.core.rendering.platform.Graphics
 import java.nio.FloatBuffer
 
-class Mesh(private var mode: Mode, val layout: VertexLayout, val vertexCount: Int, val vertexData: FloatBuffer, private var usage: Usage) {
+class Mesh(private var mode: Mode, val layout: VertexLayout, val vertexCount: Int, val vertexData: Array<Float>, private var usage: Usage) {
 	enum class Mode(val value: Int) {
 		TRIANGLES(Graphics.TRIANGLES),
+		TRIANGLE_FAN(Graphics.TRIANGLE_FAN),
 		LINES(Graphics.LINES),
 		LINE_STRIP(Graphics.LINE_STRIP),
+		LINE_LOOP(Graphics.LINE_LOOP),
 		POINTS(Graphics.POINTS);
 	}
 

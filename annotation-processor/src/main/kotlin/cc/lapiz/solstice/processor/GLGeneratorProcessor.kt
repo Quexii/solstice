@@ -2,18 +2,14 @@ package cc.lapiz.solstice.processor
 
 import com.google.auto.service.*
 import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import java.util.Locale.*
 import javax.annotation.processing.*
 import javax.lang.model.*
 import javax.lang.model.element.*
-import javax.lang.model.type.DeclaredType
-import javax.lang.model.type.TypeKind
-import javax.lang.model.type.TypeMirror
+import javax.lang.model.type.*
 
-@AutoService(Processor::class)
-@OptIn(DelicateKotlinPoetApi::class)
-@SupportedAnnotationTypes("cc.lapiz.solstice.processor.GenerateGL")
-@SupportedSourceVersion(SourceVersion.RELEASE_21) class GLGeneratorProcessor : AbstractProcessor() {
+@AutoService(Processor::class) @OptIn(DelicateKotlinPoetApi::class) @SupportedAnnotationTypes("cc.lapiz.solstice.processor.GenerateGL") @SupportedSourceVersion(SourceVersion.RELEASE_21) class GLGeneratorProcessor : AbstractProcessor() {
 	override fun process(annotations: Set<TypeElement>, roundEnv: RoundEnvironment): Boolean {
 		try {
 			val annotatedElements = roundEnv.getElementsAnnotatedWith(GenerateGL::class.java)
@@ -46,8 +42,7 @@ import javax.lang.model.type.TypeMirror
 	}
 
 	private fun addFunctionDelegates(builder: TypeSpec.Builder, element: Element) {
-		val functions = element.enclosedElements.filterIsInstance<ExecutableElement>()
-			.filter { it.kind == ElementKind.METHOD }
+		val functions = element.enclosedElements.filterIsInstance<ExecutableElement>().filter { it.kind == ElementKind.METHOD }
 
 		functions.forEach { function ->
 			val parameters = function.parameters.map {
@@ -57,19 +52,13 @@ import javax.lang.model.type.TypeMirror
 			val paramNames = parameters.joinToString(", ") { it.name }
 			val returnType = mapJavaTypeToKotlin(function.returnType)
 
-			builder.addFunction(
-				FunSpec.builder(function.simpleName.toString())
-					.addParameters(parameters)
-					.returns(returnType)
-					.apply {
-						if (returnType == UNIT) {
-							addStatement("Gr.Functions.${function.simpleName}($paramNames)")
-						} else {
-							addStatement("return Gr.Functions.${function.simpleName}($paramNames)")
-						}
-					}
-					.build()
-			)
+			builder.addFunction(FunSpec.builder(function.simpleName.toString()).addParameters(parameters).returns(returnType).apply {
+				if (returnType == UNIT) {
+					addStatement("Gr.Functions.${function.simpleName}($paramNames)")
+				} else {
+					addStatement("return Gr.Functions.${function.simpleName}($paramNames)")
+				}
+			}.build())
 		}
 	}
 
@@ -80,8 +69,8 @@ import javax.lang.model.type.TypeMirror
 			val propName = property.simpleName.toString().replaceFirst("get", "")
 			builder.addProperty(
 				PropertySpec.builder(propName, Int::class).getter(
-						FunSpec.getterBuilder().addStatement("return Gr.Types.$propName").build()
-					).build()
+					FunSpec.getterBuilder().addStatement("return Gr.Types.$propName").build()
+				).build()
 			)
 		}
 	}
@@ -120,6 +109,21 @@ import javax.lang.model.type.TypeMirror
 					else -> type.asTypeName()
 				}
 			}
+			TypeKind.ARRAY -> {
+				val declaredType = type as ArrayType
+				ClassName("kotlin", "Array").parameterizedBy(when(declaredType.componentType.asTypeName().toString()) {
+					"java.lang.Byte" -> BYTE
+					"java.lang.Short" -> SHORT
+					"java.lang.Int" -> INT
+					"java.lang.Long" -> LONG
+					"java.lang.Char" -> CHAR
+					"java.lang.Float" -> FLOAT
+					"java.lang.Double" -> DOUBLE
+					"java.lang.Boolean" -> BOOLEAN
+					else -> declaredType.componentType.asTypeName()
+				})
+			}
+
 			else -> type.asTypeName()
 		}
 	}

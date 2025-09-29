@@ -1,11 +1,16 @@
 package cc.lapiz.solstice.core.game.ecs.entity
 
-import cc.lapiz.solstice.core.game.ecs.component.*
+import cc.lapiz.solstice.core.event.Event
+import cc.lapiz.solstice.core.game.ecs.component.internal.Archetype
+import cc.lapiz.solstice.core.game.ecs.component.internal.ComponentRegistry
+import cc.lapiz.solstice.core.game.ecs.component.internal.Signature
+import cc.lapiz.solstice.core.game.ecs.system.*
 import kotlin.reflect.*
 
 class ECS {
 	private val archetypes = mutableListOf<Archetype>()
 	private var nextId = 0
+	private val systems = mutableListOf<System>()
 
 	fun createEntity(vararg comps: Any): Entity {
 		val entity = EntityFactory.create(nextId++, 0)
@@ -17,23 +22,55 @@ class ECS {
 			sig = sig.with(c::class)
 		}
 
+		println("Creating entity $entity with signature $sig")
+
 		val arch = archetypes.find { it.signature == sig } ?: Archetype(sig).also { archetypes.add(it) }
 		arch.add(entity, compMap)
 
 		return entity
 	}
 
-	fun query(vararg compTypes: KClass<*>): Sequence<Triple<Entity, List<Any>, Archetype>> {
-		var sig = Signature()
-		for (t in compTypes) sig = sig.with(t)
+	fun addSystem(system: System) {
+		systems.add(system)
+	}
 
-		return archetypes.asSequence().filter { it.signature.containsAll(sig) }.flatMap { arch ->
+	fun updateSystems(dt: Float) {
+		for (s in systems) s.update(this, dt)
+	}
+
+	fun renderSystems() {
+		for (s in systems) s.render(this)
+	}
+
+	fun onEvent(event: Event) {
+		for (s in systems) s.onEvent(this, event)
+	}
+
+	fun query(vararg compTypes: KClass<*>): Sequence<Queried> {
+		val sig = compTypes.fold(Signature()) { acc, t -> acc.with(t) }
+		return archetypes.asSequence()
+			.filter { it.signature.containsAll(sig) }
+			.flatMap { arch ->
 				arch.allEntities().map { e ->
-					val comps = compTypes.map { t ->
+					val comps = compTypes.associateWith { t ->
 						arch.getColumn(t)!![arch.allEntities().indexOf(e)]
 					}
-					Triple(e, comps, arch)
+					Queried(e, comps, arch)
 				}
 			}
+	}
+
+	data class Queried(
+		val entity: Entity,
+		val components: Map<KClass<*>, Any>,
+		val archetype: Archetype
+	) {
+		inline fun <reified T : Any> get(): T? {
+			return components[T::class] as? T
+		}
+
+		inline fun <reified T : Any> require(): T {
+			return components[T::class] as T
+		}
 	}
 }
