@@ -20,4 +20,5 @@ object SceneManager {
 	fun update(dt: Float) = current?.update(dt)
 	fun render() = current?.render()
 	fun ui() = current?.nanovg()
+	fun getCurrent(): Scene? = current
 }

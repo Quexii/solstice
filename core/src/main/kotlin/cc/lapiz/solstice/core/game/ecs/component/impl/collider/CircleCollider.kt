@@ -1,9 +1,11 @@
 package cc.lapiz.solstice.core.game.ecs.component.impl.collider
 
-import org.joml.Vector2f
+import cc.lapiz.solstice.core.data.*
+import kotlinx.serialization.*
 
+@Serializable
 data class CircleCollider(
-    override val position: Vector2f,
+	@Contextual override val position: Vector2,
     var radius: Float
 ) : Collider2D {
 

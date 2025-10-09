@@ -1,6 +1,7 @@
 package cc.lapiz.solstice.core.game.ecs.entity
 
 import cc.lapiz.solstice.core.event.Event
+import cc.lapiz.solstice.core.game.ecs.component.impl.Name
 import cc.lapiz.solstice.core.game.ecs.component.internal.Archetype
 import cc.lapiz.solstice.core.game.ecs.component.internal.ComponentRegistry
 import cc.lapiz.solstice.core.game.ecs.component.internal.Signature
@@ -12,17 +13,21 @@ class ECS {
 	private var nextId = 0
 	private val systems = mutableListOf<System>()
 
-	fun createEntity(vararg comps: Any): Entity {
+	fun createEntity(name: String, vararg comps: Any): Entity {
 		val entity = EntityFactory.create(nextId++, 0)
 		var sig = Signature()
 		val compMap = mutableMapOf<Int, Any>()
+
+		compMap[ComponentRegistry.id(Name::class)] = Name(name)
+		sig = sig.with(Name::class)
+
 		for (c in comps) {
 			val id = ComponentRegistry.id(c::class)
 			compMap[id] = c
 			sig = sig.with(c::class)
 		}
 
-		println("Creating entity $entity with signature $sig")
+		println("Creating entity $entity:$name with signature $sig")
 
 		val arch = archetypes.find { it.signature == sig } ?: Archetype(sig).also { archetypes.add(it) }
 		arch.add(entity, compMap)
@@ -59,6 +64,9 @@ class ECS {
 				}
 			}
 	}
+
+	fun archtypes(): List<Archetype> = archetypes.toList()
+	fun systems(): List<System> = systems.toList()
 
 	data class Queried(
 		val entity: Entity,

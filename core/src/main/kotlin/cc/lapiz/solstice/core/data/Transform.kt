@@ -1,20 +1,25 @@
 package cc.lapiz.solstice.core.data
 
-import cc.lapiz.solstice.core.utils.Buffers
+import cc.lapiz.solstice.core.utils.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import org.joml.Matrix4f
-import org.joml.Vector2f
 import java.lang.Math
-import java.nio.FloatBuffer
+import java.nio.*
 
+@Serializable
 class Transform {
-	var position = Vector2f()
-	var scale = Vector2f(1f, 1f)
+	var position = Vector2()
+	var scale = Vector2(1f, 1f)
 	var rotation = 0f
 	var z = 0f
 
+	@Transient
 	var parent: Transform? = null
+	@Transient
 	private val children = mutableListOf<Transform>()
 
+	@Transient
 	private val buffer = Buffers.createFloatBuffer(16)
 
 	fun addChild(child: Transform) {

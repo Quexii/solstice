@@ -1,5 +1,6 @@
 package cc.lapiz.solstice.core.game.level.grid
 
+import cc.lapiz.solstice.core.data.Vector2
 import cc.lapiz.solstice.core.game.level.grid.structure.GridStructure
 import org.joml.Vector2f
 import org.joml.Vector2i
@@ -70,8 +71,8 @@ class Grid(val width: Int, val height: Int, val cellSize: Float) {
 		return Vector2i(gx, gy)
 	}
 
-	fun gridToWorldCenter(gx: Int, gy: Int): Vector2f {
-		return Vector2f(
+	fun gridToWorldCenter(gx: Int, gy: Int): Vector2 {
+		return Vector2(
 			gx * cellSize + cellSize / 2f,
 			gy * cellSize + cellSize / 2f
 		)

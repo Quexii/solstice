@@ -14,4 +14,6 @@ object ResourceManager {
 		resource.load()
 		return resource
 	}
+
+	fun getAll(): Collection<Resource> = resources.values
 }

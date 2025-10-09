@@ -1,5 +1,6 @@
 package cc.lapiz.solstice.core.rendering
 
+import cc.lapiz.solstice.core.data.Vector2
 import cc.lapiz.solstice.core.window.Window
 import org.joml.*
 import org.lwjgl.BufferUtils
@@ -61,7 +62,7 @@ class Camera {
 		return Vector2f(worldCoords.x, worldCoords.y)
 	}
 
-	fun worldToScreen(wx: Float, wy: Float): Vector2f {
+	fun worldToScreen(wx: Float, wy: Float): Vector2 {
 		val worldCoords = Vector4f(wx, wy, 0f, 1f)
 
 		val view = Matrix4f().identity().rotateZ(rotation).translate(position.x, position.y, 0f)
@@ -75,7 +76,7 @@ class Camera {
 		val sx = ((clipCoords.x + 1f) / 2f) * Window.width()
 		val sy = ((1f - clipCoords.y) / 2f) * Window.height()
 
-		return Vector2f(sx, sy)
+		return Vector2(sx, sy)
 	}
 
 	fun rotateBy(angle: Float) {

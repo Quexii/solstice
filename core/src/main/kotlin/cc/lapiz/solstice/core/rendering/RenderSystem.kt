@@ -2,6 +2,7 @@ package cc.lapiz.solstice.core.rendering
 
 import cc.lapiz.solstice.core.data.*
 import cc.lapiz.solstice.core.font.FontFamily
+import cc.lapiz.solstice.core.font.FontManager
 import cc.lapiz.solstice.core.rendering.pipeline.mesh.*
 import cc.lapiz.solstice.core.rendering.pipeline.shader.*
 import cc.lapiz.solstice.core.rendering.platform.Graphics
@@ -14,15 +15,12 @@ object RenderSystem {
 	private var camera = Camera()
 
 	val Camera: Camera get() = camera
-	val DefaultFont get() = defaultFont ?: throw IllegalStateException("Default font not initialized!")
 
 	fun init() {
 		ShaderManager.loadShaders()
 		Meshes.init()
 		camera.projectWorld()
-		val res = FontResource("font_default", "Default Font", "links/font_default.json")
-		ResourceManager.load(res)
-		defaultFont = FontFamily(res.layout)
+		FontManager.loadFonts()
 	}
 
 	fun setShader(shader: ShaderManager.() -> Shader) {

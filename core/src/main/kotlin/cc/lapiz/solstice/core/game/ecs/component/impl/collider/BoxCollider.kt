@@ -1,9 +1,13 @@
 package cc.lapiz.solstice.core.game.ecs.component.impl.collider
 
+import cc.lapiz.solstice.core.data.Vector2
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 import org.joml.Vector2f
 
+@Serializable
 data class BoxCollider(
-    override val position: Vector2f,
+    @Contextual override val position: Vector2,
     var width: Float,
     var height: Float
 ) : Collider2D {
@@ -36,4 +40,5 @@ data class BoxCollider(
         val dy = circle.position.y - closestY
         return (dx * dx + dy * dy) < (circle.radius * circle.radius)
     }
+
 }

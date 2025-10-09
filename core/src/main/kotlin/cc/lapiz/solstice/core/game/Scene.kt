@@ -1,8 +1,11 @@
 package cc.lapiz.solstice.core.game
 
+import cc.lapiz.solstice.core.dev.Editor
 import cc.lapiz.solstice.core.event.*
 import cc.lapiz.solstice.core.game.ecs.entity.*
 import cc.lapiz.solstice.core.rendering.RenderSystem
+import cc.lapiz.solstice.core.ui.immediate.SIUI
+import cc.lapiz.solstice.core.utils.Props
 
 abstract class Scene {
 	val ecs = ECS()
@@ -21,6 +24,10 @@ abstract class Scene {
 	}
 
 	open fun onEvent(event: Event) {
+		if (Props.EDITOR) {
+			return
+		}
+
 		ecs.onEvent(event)
 	}
 

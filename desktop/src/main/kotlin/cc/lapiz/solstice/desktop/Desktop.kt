@@ -17,7 +17,7 @@ class Desktop : Platform() {
 	private val window = DesktopWindow()
 
 	override fun start() {
-		window.create("Solstice", 800, 600, false)
+		window.create("Solstice", 800, 600, true)
 
 		timer = GLFWTimer()
 		Input.setHandler(GLFWInputHandler(window))

@@ -1,6 +1,7 @@
 package cc.lapiz.solstice.core.window
 
 import cc.lapiz.solstice.core.event.WindowEvent
+import cc.lapiz.solstice.core.rendering.platform.Graphics
 import org.joml.Vector2i
 
 object Window {
@@ -17,6 +18,7 @@ object Window {
 		when (event) {
 			is WindowEvent.Resize -> {
 				size.set(event.width, event.height)
+				Graphics.viewport(0, 0, event.width, event.height)
 			}
 			is WindowEvent.Move -> {
 				position.set(event.x, event.y)

@@ -11,6 +11,7 @@ import java.nio.ByteBuffer
 
 class SpriteResource(override val id: String, override val name: String, override val path: String) : Resource, Loadable {
 	private var data: ByteBuffer? = null
+	private var rawData: ByteBuffer? = null
 	private var texId = -1
 	private var width = 0
 	private var height = 0
@@ -19,14 +20,14 @@ class SpriteResource(override val id: String, override val name: String, overrid
 	private val LOGGER = logger(SpriteResource::class.java)
 
 	override fun load() {
-		val rawData = IO.getBuffer(path)
+		rawData = IO.getBuffer(path)
 		texId = Graphics.genTextures()
 
 		MemoryStack.stackPush().use { stack ->
 			val w = stack.mallocInt(1)
 			val h = stack.mallocInt(1)
 			val c = stack.mallocInt(1)
-			data = STBImage.stbi_load_from_memory(rawData, w, h, c, 4) ?: throw RuntimeException("Failed to load image: ${STBImage.stbi_failure_reason()}")
+			data = STBImage.stbi_load_from_memory(rawData!!, w, h, c, 4) ?: throw RuntimeException("Failed to load image: ${STBImage.stbi_failure_reason()}")
 			width = w[0]
 			height = h[0]
 			channels = c[0]
@@ -47,6 +48,11 @@ class SpriteResource(override val id: String, override val name: String, overrid
 	}
 
 	fun data(): ByteBuffer? = data
+	fun rawData(): ByteBuffer? = rawData
 
 	fun textureId(): Int = texId
+
+	fun width(): Int = width
+	fun height(): Int = height
+	fun channels(): Int = channels
 }

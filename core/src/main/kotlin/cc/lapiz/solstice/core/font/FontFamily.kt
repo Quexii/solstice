@@ -27,6 +27,8 @@ class FontFamily(private val layout: FontLayout) {
 	val ExtraBold get() = faces["extrabold"] ?: Default
 	val Black get() = faces["black"] ?: Default
 
+	val face: (String) -> FontFace? = { faces[it] }
+
 	init {
 		val path = if (path.endsWith('/')) path else "$path/"
 		license = IO.getText("$path$license")

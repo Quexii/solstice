@@ -7,14 +7,13 @@ import cc.lapiz.solstice.core.game.ecs.entity.*
 import cc.lapiz.solstice.core.game.level.grid.structure.*
 import cc.lapiz.solstice.core.input.*
 import cc.lapiz.solstice.core.rendering.*
-import cc.lapiz.solstice.core.utils.*
 import kotlin.math.*
 
-class SysPlacementCursor : System {
+class SysStructurePlacement : System {
 	override fun update(sys: ECS, delta: Float) {
-		for (result in sys.query(Transform::class, PlacementCursor::class, Children::class)) {
+		for (result in sys.query(Transform::class, StructureCursor::class, Children::class)) {
 			val transform = result.require<Transform>()
-			val cursor = result.require<PlacementCursor>()
+			val cursor = result.require<StructureCursor>()
 
 			val mp = Input.getMousePosition()
 			val mouseWorld = RenderSystem.Camera.screenToWorld(mp.x, mp.y)
@@ -29,7 +28,7 @@ class SysPlacementCursor : System {
 			val centerY = (originY + (cursor.structure?.height ?: 1) / 2f) * cursor.grid.cellSize
 
 			val isValidPlacement = if (cursor.structure != null) {
-				val gridStructure = GridStructure(originX, originY, cursor.structure)
+				val gridStructure = GridStructure(originX, originY, cursor.structure.id)
 				cursor.grid.canPlace(gridStructure)
 			} else {
 				true
@@ -59,9 +58,6 @@ class SysPlacementCursor : System {
 			val gridCoords = cursor.grid.worldToGrid(mouseWorld.x, mouseWorld.y)
 			val worldCenter = cursor.grid.gridToWorldCenter(gridCoords.x, gridCoords.y)
 			transform.position.set(worldCenter)
-
-			val pulse = 0.2f * sin(JSystem.currentTimeMillis() / 80.0)
-			transform.scale.set(cursor.grid.cellSize / 2 + pulse)
 		}
 	}
 
@@ -69,8 +65,8 @@ class SysPlacementCursor : System {
 		if (event is InputEvent.MousePress && event.button == MouseButton.LEFT) {
 			val entitiesToCreate = mutableListOf<() -> Unit>()
 
-			for (result in sys.query(PlacementCursor::class)) {
-				val cursor = result.require<PlacementCursor>()
+			for (result in sys.query(StructureCursor::class)) {
+				val cursor = result.require<StructureCursor>()
 				if (cursor.structure != null) {
 					val mp = Input.getMousePosition()
 					val mouseWorld = RenderSystem.Camera.screenToWorld(mp.x, mp.y)
@@ -81,14 +77,14 @@ class SysPlacementCursor : System {
 					val originX = (gx - cursor.structure.width / 2f).roundToInt()
 					val originY = (gy - cursor.structure.height / 2f).roundToInt()
 
-					val gridStructure = GridStructure(originX, originY, cursor.structure)
+					val gridStructure = GridStructure(originX, originY, cursor.structure.id)
 
 					if (cursor.grid.placeStructure(gridStructure)) {
 						val centerX = (originX + cursor.structure.width / 2f) * cursor.grid.cellSize
 						val centerY = (originY + cursor.structure.height / 2f) * cursor.grid.cellSize
 
 						entitiesToCreate.add {
-							sys.createEntity(
+							sys.createEntity("structure_${cursor.structure.name.lowercase()}",
 								Transform().apply {
 									position.set(centerX, centerY)
 									scale.set(

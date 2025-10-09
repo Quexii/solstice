@@ -5,4 +5,5 @@ object Props {
 	const val APP_NAME = "Solstice"
 
 	var DEBUG = false
+	var EDITOR = false
 }

@@ -2,5 +2,5 @@ package cc.lapiz.solstice.core.game.ecs.component.impl
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-class Children(var entities: MutableList<Int> = mutableListOf())
+@JvmInline @Serializable
+value class Name(val name: String)

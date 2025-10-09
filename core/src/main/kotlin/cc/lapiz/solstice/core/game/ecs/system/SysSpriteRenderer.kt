@@ -15,7 +15,7 @@ class SysSpriteRenderer : System {
 			RenderSystem.bindTexture(spriteRenderer.sprite!!.textureId())
 			RenderSystem.renderMesh(Meshes.UVRect, transform) {
 				sampler2D("Texture", 0)
-				vec4("Color", spriteRenderer.color.x, spriteRenderer.color.y, spriteRenderer.color.z, spriteRenderer.color.w)
+				vec4("Color", spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a)
 			}
 		}
 	}

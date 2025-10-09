@@ -1,13 +1,18 @@
 package cc.lapiz.solstice.core.rendering.nanovg
 
 import cc.lapiz.solstice.core.font.FontFace
+import cc.lapiz.solstice.core.font.FontManager
 import cc.lapiz.solstice.core.rendering.RenderSystem
+import cc.lapiz.solstice.core.resource.impl.SpriteResource
+import cc.lapiz.solstice.core.ui.Colors
 import org.lwjgl.nanovg.*
+import org.lwjgl.system.MemoryUtil
 import java.nio.*
 
 @Suppress("FunctionName", "unused") object NVcanvas {
 	private lateinit var nvgl: NVgl
 	private var context: Long = 0
+	private val imagesMap = mutableMapOf<SpriteResource, Int>()
 	fun init(nvgl: NVgl, flags: Int)  {
 		this.nvgl = nvgl
 		context = nvgl.create(flags)
@@ -171,7 +176,7 @@ import java.nio.*
 		nvStroke()
 	}
 
-	fun text(x: Float, y: Float, text: String, size: Float, blur: Float, color: NVGColor, face: FontFace = RenderSystem.DefaultFont.Default, textAlign: TextAlign = TextAlign.LeftTop) {
+	fun text(x: Float, y: Float, text: String, size: Float, blur: Float, color: NVGColor, face: FontFace = FontManager.Default.Default, textAlign: TextAlign = TextAlign.LeftTop) {
 		nvFontSize(size)
 		nvFontBlur(blur)
 		nvTextAlign(textAlign.value)
@@ -180,8 +185,19 @@ import java.nio.*
 		nvText(x, y, text)
 	}
 
-	fun text(x: Float, y: Float, text: String, color: NVGColor, size: Float = 21f, face: FontFace = RenderSystem.DefaultFont.Default, textAlign: TextAlign = TextAlign.LeftTop) {
+	fun text(x: Float, y: Float, text: String, color: NVGColor, size: Float = 21f, face: FontFace = FontManager.Default.Default, textAlign: TextAlign = TextAlign.LeftTop) {
 		text(x, y, text, size, 0f, color, face, textAlign)
+	}
+
+	fun stringSize(text: String, size: Float, face: FontFace = FontManager.Default.Default): Float {
+		nvFontSize(size)
+		nvTextAlign(TextAlign.LeftTop.value)
+		nvTextFontFace(face.id)
+		val buf = MemoryUtil.memAllocFloat(4)
+		nvTextBounds(text, buf)
+		val width = buf[2] - buf[0]
+		MemoryUtil.memFree(buf)
+		return width
 	}
 
 	fun strokeLine(x0: Float, y0: Float, x1: Float, y1: Float, color: NVGColor, strokeWidth: Float) {
@@ -198,5 +214,18 @@ import java.nio.*
 		nvCircle(cx, cy, r)
 		nvFillColor(color)
 		nvFill()
+	}
+
+	fun sprite(x: Float, y: Float, w: Float, h: Float, sprite: SpriteResource) {
+		if (!imagesMap.contains(sprite)) {
+			imagesMap[sprite] = nvCreateImageMem(sprite.rawData()!!, NanoVG.NVG_IMAGE_NEAREST)
+		}
+
+		val paint = nvImagePattern(x, y, w, h, 0f, imagesMap[sprite]!!, 1f)
+		nvBeginPath()
+		nvRect(x, y, w, h)
+		nvFillPaint(paint)
+		nvFill()
+		paint.free()
 	}
 }

@@ -9,4 +9,16 @@ object ComponentRegistry {
 	}
 
 	inline fun <reified T: Any> id(): Int = id(T::class)
+
+	fun allRegistered(): Set<KClass<*>> = types.keys
+
+	fun <T: Any> get(id: Int): KClass<T>? {
+		return types.entries.find { it.value == id }?.key as KClass<T>?
+	}
+
+	inline fun <reified T: Any> get(): KClass<T>? = get<T>(id<T>())
+
+	fun getRaw(id: Int): KClass<*>? {
+		return types.entries.find { it.value == id }?.key
+	}
 }
