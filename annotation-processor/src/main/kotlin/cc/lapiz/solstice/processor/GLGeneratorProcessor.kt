@@ -16,7 +16,7 @@ import javax.lang.model.type.*
 
 			if (annotatedElements.isEmpty()) return false
 
-			val fileSpec = FileSpec.builder("cc.lapiz.solstice.core.rendering.platform", "Graphics").addImport("cc.lapiz.solstice.core.rendering.platform", "Gr").addType(generateGLClass(annotatedElements)).build()
+			val fileSpec = FileSpec.builder("cc.lapiz.solstice.rendering.platform", "Graphics").addImport("cc.lapiz.solstice.rendering.platform", "Gr").addType(generateGLClass(annotatedElements)).build()
 
 			fileSpec.writeTo(processingEnv.filer)
 			return true

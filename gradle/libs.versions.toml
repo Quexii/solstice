@@ -3,8 +3,12 @@
 kotlin = "2.2.20"
 coroutines = "1.10.2"
 serialization = "1.9.0"
-# LWJGL
+
+# engine
 lwjgl = "3.3.6"
+joml = "1.10.8"
+imgui = "1.90.0"
+
 # Extra
 slf4j = "2.0.16"
 logback = "1.4.14"
@@ -14,19 +18,25 @@ logback = "1.4.14"
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
-# lwjgl
+kotlinx-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+
+# engine
 lwjgl-bom = { module = "org.lwjgl:lwjgl-bom", version.ref = "lwjgl" }
 lwjgl-core = { module = "org.lwjgl:lwjgl" }
 lwjgl-glfw = { module = "org.lwjgl:lwjgl-glfw" }
 lwjgl-opengl = { module = "org.lwjgl:lwjgl-opengl" }
 lwjgl-stb = { module = "org.lwjgl:lwjgl-stb" }
-lwjgl-egl = { module = "org.lwjgl:lwjgl-egl" }
 lwjgl-ktx = { module = "org.lwjgl:lwjgl-ktx" }
 lwjgl-lz4 = { module = "org.lwjgl:lwjgl-lz4" }
 lwjgl-nanovg = { module = "org.lwjgl:lwjgl-nanovg" }
 lwjgl-nfd = { module = "org.lwjgl:lwjgl-nfd" }
 lwjgl-openal = { module = "org.lwjgl:lwjgl-openal" }
-lwjgl-opengles = { module = "org.lwjgl:lwjgl-opengles" }
+joml = { group = "org.joml", name = "joml", version.ref = "joml" }
+imgui = { group = "io.github.spair", name = "imgui-java-binding", version.ref = "imgui" }
+imgui-lwjgl3 = { group = "io.github.spair", name = "imgui-java-lwjgl3", version.ref = "imgui" }
+imgui-natives-linux = { group = "io.github.spair", name = "imgui-java-natives-linux", version.ref = "imgui" }
+imgui-natives-macos = { group = "io.github.spair", name = "imgui-java-natives-macos", version.ref = "imgui" }
+imgui-natives-windows = { group = "io.github.spair", name = "imgui-java-natives-windows", version.ref = "imgui" }
 
 # Logging
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
@@ -37,14 +47,7 @@ kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
 
 [bundles]
-kotlin = ["kotlin-stdlib", "kotlinx-coroutines-core", "kotlinx-serialization"]
+kotlin = ["kotlin-stdlib", "kotlinx-coroutines-core", "kotlinx-serialization", "kotlinx-reflect"]
 logging = ["slf4j-api", "logback-classic"]
-lwjgl-shared = [
-    "lwjgl-core", "lwjgl-ktx", "lwjgl-lz4", "lwjgl-nanovg", "lwjgl-nfd", "lwjgl-openal", "lwjgl-stb"
-]
-lwjgl-desktop = [
-    "lwjgl-glfw", "lwjgl-opengl"
-]
-lwjgl-android = [
-    "lwjgl-egl", "lwjgl-opengles"
-]
+lwjgl = ["lwjgl-core", "lwjgl-ktx", "lwjgl-lz4", "lwjgl-nanovg", "lwjgl-nfd", "lwjgl-openal", "lwjgl-stb", "lwjgl-glfw", "lwjgl-opengl"]
+imgui = ["imgui", "imgui-lwjgl3", "imgui-natives-linux", "imgui-natives-macos", "imgui-natives-windows"]

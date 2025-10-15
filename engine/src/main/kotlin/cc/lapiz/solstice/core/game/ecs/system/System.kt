@@ -1,0 +1,10 @@
+package cc.lapiz.solstice.game.ecs.system
+
+import cc.lapiz.solstice.event.Event
+import cc.lapiz.solstice.game.ecs.entity.ECS
+
+interface System {
+	fun update(sys: ECS, delta: Float) {}
+	fun onEvent(sys: ECS, event: Event) {}
+	fun render(sys: ECS) {}
+}

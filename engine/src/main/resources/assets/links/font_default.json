@@ -1,0 +1,15 @@
+{
+  "name": "Share Tech Mono",
+  "path": "fonts/share_tech_mono/",
+  "license": "OFL.txt",
+  "resolution": 1024,
+  "size": 16,
+  "pixelFont": false,
+  "fonts": [
+    {
+      "face": "regular",
+      "file": "Regular.ttf",
+      "default": true
+    }
+  ]
+}

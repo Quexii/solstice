@@ -1,0 +1,70 @@
+{
+    "Text": "#FFABB2BF",
+    "TextDisabled": "#FF4B5263",
+    "WindowBg": "#FF1E222A",
+    "ChildBg": "#FF21252B",
+    "PopupBg": "#FF282C34",
+    "Border": "#FF181A1F",
+    "BorderShadow": "#00000000",
+
+    "FrameBg": "#FF2C313C",
+    "FrameBgHovered": "#FF3B4049",
+    "FrameBgActive": "#FF404754",
+
+    "TitleBg": "#FF1E222A",
+    "TitleBgActive": "#FF2C313C",
+    "TitleBgCollapsed": "#FF1E222A",
+
+    "MenuBarBg": "#FF1E222A",
+    "ScrollbarBg": "#FF1E222A",
+    "ScrollbarGrab": "#FF3B4049",
+    "ScrollbarGrabHovered": "#FF4B5263",
+    "ScrollbarGrabActive": "#FF61AFEF",
+
+    "CheckMark": "#FF61AFEF",
+    "SliderGrab": "#FF61AFEF",
+    "SliderGrabActive": "#FF528BFF",
+
+    "Button": "#FF2C313C",
+    "ButtonHovered": "#FF3B4049",
+    "ButtonActive": "#FF61AFEF",
+
+    "Header": "#FF2C313C",
+    "HeaderHovered": "#FF3B4049",
+    "HeaderActive": "#FF528BFF",
+
+    "Separator": "#FF3B4049",
+    "SeparatorHovered": "#FF528BFF",
+    "SeparatorActive": "#FF61AFEF",
+
+    "ResizeGrip": "#662C313C",
+    "ResizeGripHovered": "#9961AFEF",
+    "ResizeGripActive": "#FF61AFEF",
+
+    "Tab": "#FF1E222A",
+    "TabHovered": "#FF3B4049",
+    "TabActive": "#FF528BFF",
+    "TabUnfocused": "#FF1E222A",
+    "TabUnfocusedActive": "#FF2C313C",
+
+    "DockingPreview": "#66528BFF",
+    "DockingEmptyBg": "#FF1E222A",
+
+    "PlotLines": "#FF61AFEF",
+    "PlotLinesHovered": "#FF528BFF",
+    "PlotHistogram": "#FF98C379",
+    "PlotHistogramHovered": "#FFE5C07B",
+
+    "TableHeaderBg": "#FF2C313C",
+    "TableBorderStrong": "#FF181A1F",
+    "TableBorderLight": "#FF3B4049",
+    "TableRowBg": "#00000000",
+    "TableRowBgAlt": "#0D2C313C",
+
+    "TextSelectedBg": "#663D5275",
+    "DragDropTarget": "#FF61AFEF",
+    "NavHighlight": "#FF528BFF",
+    "NavWindowingHighlight": "#B3528BFF",
+    "NavWindowingDimBg": "#801E222A",
+    "ModalWindowDimBg": "#801E222A"
+}

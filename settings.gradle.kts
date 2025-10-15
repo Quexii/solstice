@@ -3,6 +3,6 @@ plugins {
 }
 rootProject.name = "solstice"
 
-include("core")
-include("desktop")
+include("engine")
+include("game")
 include("annotation-processor")
