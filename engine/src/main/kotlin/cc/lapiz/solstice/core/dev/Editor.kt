@@ -3,6 +3,7 @@ package cc.lapiz.solstice.core.dev
 import cc.lapiz.solstice.core.assets.Asset
 import cc.lapiz.solstice.core.assets.Assets
 import cc.lapiz.solstice.core.assets.meta.MetaGen
+import cc.lapiz.solstice.core.assets.meta.MetaPrefab
 import cc.lapiz.solstice.core.assets.meta.MetaTexture
 import cc.lapiz.solstice.core.assets.types.Sprite
 import cc.lapiz.solstice.core.game.components.ImSerialize
@@ -29,6 +30,7 @@ import org.joml.Vector2i
 import org.lwjgl.opengl.GL33C
 import java.nio.file.Path
 import kotlin.reflect.full.createInstance
+import kotlinx.serialization.json.buildJsonObject
 
 private typealias MetaTextureType = MetaTexture.Serialized.TextureType
 private typealias MetaTextureFilter = MetaTexture.Serialized.TextureFilter
@@ -177,6 +179,21 @@ object Editor {
 
     private fun assets() {
         ImGuiCtx.window("Assets") {
+            if (ImGui.button("Create Prefab")) {
+                val timestamp = System.currentTimeMillis()
+                Assets.registerVirtualAsset("prefabs/prefab_$timestamp.prefab") { path ->
+                    MetaPrefab(
+                        path,
+                        MetaPrefab.Serialized(
+                            name = "Prefab $timestamp",
+                            definition = buildJsonObject { },
+                            tags = listOf("runtime"),
+                            template = false,
+                        )
+                    )
+                }
+            }
+            ImGui.separator()
             val list = Assets.getAll()
             dynamicItemGrid(
                 items = list.map {
