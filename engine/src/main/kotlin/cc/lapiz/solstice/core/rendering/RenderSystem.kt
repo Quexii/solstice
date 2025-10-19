@@ -1,12 +1,15 @@
-package cc.lapiz.solstice.rendering
+package cc.lapiz.solstice.core.rendering
 
-import cc.lapiz.solstice.data.*
-import cc.lapiz.solstice.font.*
-import cc.lapiz.solstice.rendering.nanovg.*
-import cc.lapiz.solstice.rendering.nanovg.platform.*
-import cc.lapiz.solstice.rendering.pipeline.mesh.*
-import cc.lapiz.solstice.rendering.pipeline.shader.*
-import cc.lapiz.solstice.window.Display
+import cc.lapiz.solstice.core.data.Transform
+import cc.lapiz.solstice.core.rendering.nanovg.platform.NVgl3
+import cc.lapiz.solstice.core.rendering.pipeline.mesh.Mesh
+import cc.lapiz.solstice.core.rendering.pipeline.mesh.Meshes
+import cc.lapiz.solstice.core.rendering.pipeline.shader.Framebuffer
+import cc.lapiz.solstice.core.rendering.pipeline.shader.ShaderManager
+import cc.lapiz.solstice.core.rendering.pipeline.shader.UniformScope
+import cc.lapiz.solstice.core.window.Display
+import cc.lapiz.solstice.rendering.nanovg.NVcanvas
+import cc.lapiz.solstice.rendering.pipeline.shader.Shader
 import org.lwjgl.nanovg.NanoVGGL3
 import org.lwjgl.opengl.GL33C
 
@@ -24,13 +27,12 @@ object RenderSystem {
 		ShaderManager.loadShaders()
 		Meshes.init()
 		camera.projectWorld()
-		FontManager.loadFonts()
 	}
 
 	fun framebuffer(): Framebuffer = framebuffer
 
 	fun setShader(shader: ShaderManager.() -> Shader) {
-		this.currentShader = shader(ShaderManager)
+		currentShader = shader(ShaderManager)
 	}
 
 	fun currentShader(): Shader? = currentShader

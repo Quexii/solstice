@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.rendering.pipeline.vertex
+package cc.lapiz.solstice.core.rendering.pipeline.vertex
 
 import org.lwjgl.opengl.*
 

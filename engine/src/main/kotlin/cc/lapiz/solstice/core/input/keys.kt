@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package cc.lapiz.solstice.input
+package cc.lapiz.solstice.core.input
 
 data class Key(val name: String)
 

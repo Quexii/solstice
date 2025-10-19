@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.options
+package cc.lapiz.solstice.core.options
 
 class OptionCategory(
     val name: String,

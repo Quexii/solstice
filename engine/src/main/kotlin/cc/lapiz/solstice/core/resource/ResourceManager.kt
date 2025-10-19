@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.resource
+package cc.lapiz.solstice.core.resource
 
 object ResourceManager {
 	private val resources = mutableMapOf<String, Id>()

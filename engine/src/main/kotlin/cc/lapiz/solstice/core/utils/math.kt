@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.utils
+package cc.lapiz.solstice.core.utils
 
 import kotlin.math.PI
 

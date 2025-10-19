@@ -1,9 +1,8 @@
 package cc.lapiz.solstice.core.serialization
 
-import cc.lapiz.solstice.data.Color
-import cc.lapiz.solstice.ui.imgui.ImGui
-import cc.lapiz.solstice.utils.argbToAbgr
-import imgui.ImVec4
+import cc.lapiz.solstice.core.data.Color
+import cc.lapiz.solstice.core.ui.imgui.ImGuiCtx
+import cc.lapiz.solstice.core.utils.argbToAbgr
 import imgui.flag.ImGuiCol
 import kotlinx.serialization.Serializable
 
@@ -67,7 +66,7 @@ data class ImGuiThemeJSON(
 )
 
 fun ImGuiThemeJSON.applyToImGui() {
-    val style = ImGui.style()
+    val style = ImGuiCtx.style()
 
     fun String.toColorInt(): Int {
         val clean = this.removePrefix("#")

@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.options
+package cc.lapiz.solstice.core.options
 
 import kotlinx.serialization.Serializable
 

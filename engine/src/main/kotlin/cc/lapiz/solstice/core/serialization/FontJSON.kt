@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.serialization
+package cc.lapiz.solstice.core.serialization
 
 
 import kotlinx.serialization.SerialName
@@ -10,9 +10,9 @@ data class FontJSON(
     @SerialName("license") val license: String,
     @SerialName("name") val name: String,
     @SerialName("path") val path: String,
-	@SerialName("resolution") val resolution: Int,
-	@SerialName("size") val size: Int,
-	@SerialName("pixelFont") val pixelFont: Boolean,
+    @SerialName("resolution") val resolution: Int,
+    @SerialName("size") val size: Int,
+    @SerialName("pixelFont") val pixelFont: Boolean,
 ) {
     @Serializable
     data class Font(

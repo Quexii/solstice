@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.data
+package cc.lapiz.solstice.core.data
 
 import kotlinx.serialization.Serializable
 

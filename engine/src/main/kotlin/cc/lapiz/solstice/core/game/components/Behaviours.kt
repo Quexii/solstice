@@ -1,6 +1,6 @@
-package cc.lapiz.solstice.game.components
+package cc.lapiz.solstice.core.game.components
 
-import cc.lapiz.solstice.event.Event
+import cc.lapiz.solstice.core.event.Event
 
 interface Behaviours {
     fun onStart() {}

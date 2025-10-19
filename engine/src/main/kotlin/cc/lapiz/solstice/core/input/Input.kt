@@ -1,13 +1,12 @@
-package cc.lapiz.solstice.input
+package cc.lapiz.solstice.core.input
 
-import cc.lapiz.solstice.input.InputHandler
 import org.joml.Vector2f
 
 object Input {
 	private var handler: InputHandler? = null
 
 	fun setHandler(handler: InputHandler) {
-		this.handler = handler
+		Input.handler = handler
 	}
 
 	fun isKeyPressed(key: Key): Boolean {

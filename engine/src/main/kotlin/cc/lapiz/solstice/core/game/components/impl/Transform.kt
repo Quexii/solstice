@@ -1,105 +1,78 @@
-package cc.lapiz.solstice.game.components.impl
+package cc.lapiz.solstice.core.game.components.impl
 
+import cc.lapiz.solstice.core.data.Transform
 import cc.lapiz.solstice.core.game.components.ImSerialize
-import cc.lapiz.solstice.data.Transform
-import cc.lapiz.solstice.data.Vector2
-import cc.lapiz.solstice.game.components.Component
-import cc.lapiz.solstice.ui.imgui.ImGui
+import cc.lapiz.solstice.core.data.Vector2
+import cc.lapiz.solstice.core.game.components.Component
+import cc.lapiz.solstice.core.game.components.meta.ComponentName
+import cc.lapiz.solstice.core.game.components.meta.JsonSerializable
+import cc.lapiz.solstice.core.ui.imgui.table2Column
+import cc.lapiz.solstice.core.ui.imgui.tableRow
+import imgui.ImGui
 import imgui.flag.ImGuiTableFlags
+import imgui.type.ImFloat
+import kotlinx.serialization.json.*
 
 private typealias Backing = Transform
 
-class Transform : Component(), ImSerialize {
+@ComponentName("Transform")
+class Transform : Component(), ImSerialize, JsonSerializable {
     val backing = Backing()
 
     var position: Vector2
         get() = backing.position
         set(value) {
             backing.position.set(value)
-            positionArrayX[0] = value.x
-            positionArrayY[0] = value.y
+            positionArray[0] = value.x
+            positionArray[1] = value.y
         }
 
     var rotation: Float
         get() = backing.rotation
         set(value) {
             backing.rotation = value
-            rotationArray[0] = value
+            imRotation.data[0] = value
         }
 
     var scale: Vector2
         get() = backing.scale
         set(value) {
             backing.scale.set(value)
-            scaleArrayX[0] = value.x
-            scaleArrayY[0] = value.y
+            scaleArray[0] = value.x
+            scaleArray[1] = value.y
         }
 
     var z: Float
         get() = backing.z
         set(value) {
             backing.z = value
-            zArray[0] = value
+            imZ.data[0] = value
         }
 
-    private val positionArrayX = floatArrayOf(position.x)
-    private val positionArrayY = floatArrayOf(position.y)
-    private val scaleArrayX = floatArrayOf(scale.x)
-    private val scaleArrayY = floatArrayOf(scale.y)
-    private val rotationArray = floatArrayOf(rotation)
-    private val zArray = floatArrayOf(z)
+    private val positionArray = floatArrayOf(position.x, position.y)
+    private val scaleArray = floatArrayOf(scale.x, scale.y)
+    private val imRotation = ImFloat(rotation)
+    private val imZ = ImFloat(z)
     override fun drawImGui() {
-        ImGui.beginTable("##transform", 3, ImGuiTableFlags.SizingFixedFit)
-        val size = imgui.ImGui.getContentRegionAvail()
+        table2Column("##Transform") {
+            tableRow("Position", positionArray)
+            tableRow("Scale", scaleArray)
+            tableRow("Rotation", imRotation)
+            tableRow("Z", imZ)
+        }
+    }
 
-        ImGui.tableNextRow()
-        val fieldWidth = (size.x + 24) / 3f
-        ImGui.tableSetColumnIndex(0)
-        imgui.ImGui.pushItemWidth(fieldWidth)
-        ImGui.text("Position")
-        ImGui.tableSetColumnIndex(1)
-        imgui.ImGui.pushItemWidth(fieldWidth)
-        if (ImGui.dragFloat("##position##X", positionArrayX)) {
-            position.x = positionArrayX[0]
-        }
-        ImGui.tableSetColumnIndex(2)
-        imgui.ImGui.pushItemWidth(fieldWidth)
-        if (ImGui.dragFloat("##position##Y", positionArrayY)) {
-            position.y = positionArrayY[0]
-        }
-        imgui.ImGui.popItemWidth()
-        ImGui.tableNextRow()
-
-        ImGui.tableSetColumnIndex(0)
-        imgui.ImGui.pushItemWidth(fieldWidth)
-        ImGui.text("Scale")
-        ImGui.tableSetColumnIndex(1)
-        imgui.ImGui.pushItemWidth(fieldWidth)
-        if (ImGui.dragFloat("##scale##X", scaleArrayX)) {
-            scale.x = scaleArrayX[0]
-        }
-        ImGui.tableSetColumnIndex(2)
-        imgui.ImGui.pushItemWidth(fieldWidth)
-        if (ImGui.dragFloat("##scale##Y", scaleArrayY)) {
-            scale.y = scaleArrayY[0]
-        }
-        imgui.ImGui.popItemWidth()
-        ImGui.tableNextRow()
-
-        ImGui.tableSetColumnIndex(0)
-        imgui.ImGui.pushItemWidth(fieldWidth)
-        ImGui.text("Rotation / Z")
-        ImGui.tableSetColumnIndex(1)
-        imgui.ImGui.pushItemWidth(fieldWidth)
-        if (ImGui.dragFloat("##rotation", rotationArray)) {
-            rotation = rotationArray[0]
-        }
-        ImGui.tableSetColumnIndex(2)
-        imgui.ImGui.pushItemWidth(fieldWidth)
-        if (ImGui.dragFloat("##z", zArray)) {
-            z = zArray[0]
-        }
-        imgui.ImGui.popItemWidth()
-        ImGui.endTable()
+    override fun toJson(): JsonObject = buildJsonObject {
+        put("type", name)
+        put("position", buildJsonArray {
+            add(position.x)
+            add(position.y)
+        })
+        put("rotation", rotation)
+        put("scale", buildJsonArray {
+            add(scale.x)
+            add(scale.y)
+        })
+        put("z", z)
     }
 }

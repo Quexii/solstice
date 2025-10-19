@@ -1,11 +1,12 @@
-package cc.lapiz.solstice.game
+package cc.lapiz.solstice.core.game
 
-import cc.lapiz.solstice.event.*
+import cc.lapiz.solstice.core.event.Event
+import cc.lapiz.solstice.core.event.WindowEvent
 
 object SceneManager {
 	private lateinit var current: Scene
 	fun setScene(scene: Scene) {
-		if (::current.isInitialized) current.onExit()
+		if (SceneManager::current.isInitialized) current.onExit()
 		current = scene
 		current.onEnter()
 	}

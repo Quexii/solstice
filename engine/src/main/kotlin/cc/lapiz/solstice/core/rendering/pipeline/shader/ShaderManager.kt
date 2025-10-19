@@ -1,8 +1,9 @@
-package cc.lapiz.solstice.rendering.pipeline.shader
+package cc.lapiz.solstice.core.rendering.pipeline.shader
 
-import cc.lapiz.solstice.resource.*
-import cc.lapiz.solstice.resource.impl.*
-import org.slf4j.*
+import cc.lapiz.solstice.core.resource.ResourceManager
+import cc.lapiz.solstice.core.resource.impl.ShaderId
+import cc.lapiz.solstice.rendering.pipeline.shader.Shader
+import org.slf4j.LoggerFactory
 
 object ShaderManager {
 	private val LOGGER = LoggerFactory.getLogger(ShaderManager::class.java)

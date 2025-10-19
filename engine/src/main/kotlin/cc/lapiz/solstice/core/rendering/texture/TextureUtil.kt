@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.rendering.texture
+package cc.lapiz.solstice.core.rendering.texture
 
 import org.lwjgl.opengl.*
 import java.nio.*

@@ -1,19 +1,21 @@
 package cc.lapiz.solstice.core
 
 import cc.lapiz.solstice.core.assets.Assets
-import cc.lapiz.solstice.event.*
-import cc.lapiz.solstice.game.*
-import cc.lapiz.solstice.dev.Editor
-import cc.lapiz.solstice.font.FontManager
-import cc.lapiz.solstice.rendering.*
-import cc.lapiz.solstice.time.*
-import cc.lapiz.solstice.ui.imgui.ImGui
-import cc.lapiz.solstice.utils.Props
-import cc.lapiz.solstice.utils.toByteArray
-import cc.lapiz.solstice.window.*
+import cc.lapiz.solstice.core.dev.Editor
+import cc.lapiz.solstice.core.event.Event
+import cc.lapiz.solstice.core.event.Events
+import cc.lapiz.solstice.core.game.SceneManager
+import cc.lapiz.solstice.core.game.components.ComponentRegistry
+import cc.lapiz.solstice.core.rendering.RenderSystem
+import cc.lapiz.solstice.core.resource.IO
+import cc.lapiz.solstice.core.time.Timer
+import cc.lapiz.solstice.core.ui.imgui.ImGuiCtx
+import cc.lapiz.solstice.core.utils.Props
+import cc.lapiz.solstice.core.utils.toByteArray
+import cc.lapiz.solstice.core.window.Display
 import imgui.ImFontConfig
 import imgui.flag.ImGuiConfigFlags
-import org.lwjgl.glfw.*
+import org.lwjgl.glfw.GLFW
 
 class Solstice(val entrypoint: Entrypoint) {
 	companion object {
@@ -26,14 +28,16 @@ class Solstice(val entrypoint: Entrypoint) {
 	fun run() {
 		Display.create(entrypoint.windowOptions)
 		RenderSystem.init()
+		ComponentRegistry.initInternal()
 		Assets.init()
-		ImGui.init {
+		Assets.loadTick()
+		ImGuiCtx.init {
 			it.addConfigFlags(ImGuiConfigFlags.DockingEnable)
 			it.fonts.clear()
 
 			val fontConfig = ImFontConfig()
 			val font = it.fonts.addFontFromMemoryTTF(
-				FontManager.Default.data("regular")!!.toByteArray(),
+				IO.getBuffer("fonts/share_tech_mono/Regular.ttf").toByteArray(),
 				16f,
 				fontConfig,
 				it.fonts.glyphRangesDefault
@@ -48,6 +52,7 @@ class Solstice(val entrypoint: Entrypoint) {
 
 		GLFW.glfwShowWindow(Display.handle)
 		while (!Display.shouldClose) {
+			Assets.loadTick()
 			Timer.update()
 			update(Timer.deltaTime)
 			GLFW.glfwPollEvents()
@@ -56,7 +61,7 @@ class Solstice(val entrypoint: Entrypoint) {
 			GLFW.glfwSwapBuffers(Display.handle)
 		}
 
-		ImGui.cleanup()
+		ImGuiCtx.cleanup()
 		Assets.cleanup()
 		Display.cleanup()
 	}
@@ -80,9 +85,9 @@ class Solstice(val entrypoint: Entrypoint) {
 		RenderSystem.framebuffer().unbind()
 
 		if (Props.EDITOR) {
-			ImGui.newFrame()
+			ImGuiCtx.newFrame()
 			Editor.imgui()
-			ImGui.render()
+			ImGuiCtx.render()
 		}
 	}
 }

@@ -1,6 +1,7 @@
-package cc.lapiz.solstice.event
+package cc.lapiz.solstice.core.event
 
-import cc.lapiz.solstice.input.*
+import cc.lapiz.solstice.core.input.Key
+import cc.lapiz.solstice.core.input.MouseButton
 import org.joml.Vector2f
 
 sealed interface Event

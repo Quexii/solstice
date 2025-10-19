@@ -6,7 +6,9 @@ import java.nio.file.Path
 import kotlin.io.path.extension
 
 object MetaGen {
-    fun determineType(file: Path): Meta {
+    private val associateMap = mutableMapOf<Path, Meta<*>>()
+
+    fun determineType(file: Path): Meta<*> {
         val ext = file.extension.lowercase()
         val meta = when (ext) {
             "png", "jpg", "jpeg", "tga", "bmp" -> MetaTexture(file)
@@ -26,19 +28,34 @@ object MetaGen {
     }
 
     fun generate(path: Path) {
-
+        val gen = determineType(path)
+        val file = jsonFile(path)
+        associateMap[file.toPath()] = gen
+        file.writeText(gen.onCreate())
     }
 
     fun modify(path: Path) {
+        val file = jsonFile(path)
+        val original = file.readText()
+        update(path, original, false)
+    }
 
+    fun update(path: Path, content: String, force: Boolean) {
+        val gen = determineType(path)
+        val file = jsonFile(path)
+        associateMap[file.toPath()] = gen
+        file.writeText(gen.onModify(content, force))
     }
 
     fun delete(path: Path) {
         val file = jsonFile(path)
+        if (file.exists()) file.delete()
     }
 
-    private fun jsonFile(path: Path): File {
-        val metaFileName = ".meta.${path.fileName}.json"
+    fun fromCachedPath(path: Path): Meta<*> = associateMap[path] ?: error("No gen found for path: $path")
+
+    fun jsonFile(path: Path): File {
+        val metaFileName = ".${path.fileName}.asset"
         val metaPath = path.resolveSibling(metaFileName).normalize()
         return metaPath.toFile()
     }

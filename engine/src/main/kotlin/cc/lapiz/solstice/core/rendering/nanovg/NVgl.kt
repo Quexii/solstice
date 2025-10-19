@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.rendering.nanovg
+package cc.lapiz.solstice.core.rendering.nanovg
 
 interface NVgl {
 	fun create(flags: Int): Long

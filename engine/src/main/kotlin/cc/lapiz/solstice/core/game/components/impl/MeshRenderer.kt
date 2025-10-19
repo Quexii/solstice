@@ -1,18 +1,20 @@
 package cc.lapiz.solstice.core.game.components.impl
 
+import cc.lapiz.solstice.core.game.components.Component
 import cc.lapiz.solstice.core.game.components.ImSerialize
-import cc.lapiz.solstice.core.game.components.RequireComponent
-import cc.lapiz.solstice.game.components.Component
-import cc.lapiz.solstice.game.components.impl.Transform
-import cc.lapiz.solstice.rendering.RenderSystem
-import cc.lapiz.solstice.rendering.pipeline.mesh.Mesh
+import cc.lapiz.solstice.core.game.components.meta.ComponentName
+import cc.lapiz.solstice.core.game.components.meta.JsonSerializable
+import cc.lapiz.solstice.core.game.components.meta.RequiredComponents
+import cc.lapiz.solstice.core.rendering.RenderSystem
+import cc.lapiz.solstice.core.rendering.pipeline.mesh.Mesh
+import cc.lapiz.solstice.core.rendering.pipeline.shader.UniformScope
 import cc.lapiz.solstice.rendering.pipeline.shader.Shader
-import cc.lapiz.solstice.rendering.pipeline.shader.UniformScope
-import cc.lapiz.solstice.ui.imgui.ImGui
-import imgui.flag.ImGuiTableFlags
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
 
-@RequireComponent(Transform::class)
-open class MeshRenderer : Component(), ImSerialize {
+@ComponentName("Mesh Renderer")
+@RequiredComponents(Transform::class)
+open class MeshRenderer : Component(), ImSerialize, JsonSerializable {
     var mesh: Mesh? = null
     var shader: Shader? = null
     override fun onRender() {
@@ -24,7 +26,8 @@ open class MeshRenderer : Component(), ImSerialize {
         RenderSystem.renderMesh(mesh!!, gameObject.getComponent<Transform>()!!.backing) { applyUniforms(this) }
     }
 
-    open fun preShader() {}
+    open fun preShader(): Boolean = true
     open fun applyUniforms(scope: UniformScope) {}
-    open override fun drawImGui() {}
+    override fun drawImGui() {}
+    override fun toJson(): JsonObject = buildJsonObject { }
 }

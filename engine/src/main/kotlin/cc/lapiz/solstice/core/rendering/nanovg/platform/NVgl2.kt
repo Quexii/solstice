@@ -1,6 +1,6 @@
-package cc.lapiz.solstice.rendering.nanovg.platform
+package cc.lapiz.solstice.core.rendering.nanovg.platform
 
-import cc.lapiz.solstice.rendering.nanovg.NVgl
+import cc.lapiz.solstice.core.rendering.nanovg.NVgl
 import org.lwjgl.nanovg.*
 
 class NVgl2 : NVgl {

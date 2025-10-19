@@ -1,11 +1,10 @@
-package cc.lapiz.solstice.window
+package cc.lapiz.solstice.core.window
 
-import cc.lapiz.solstice.data.Vector2
-import cc.lapiz.solstice.event.Events
-import cc.lapiz.solstice.event.WindowEvent
-import cc.lapiz.solstice.options.Options
-import cc.lapiz.solstice.utils.Props
-import cc.lapiz.solstice.utils.logger
+import cc.lapiz.solstice.core.event.Events
+import cc.lapiz.solstice.core.event.WindowEvent
+import cc.lapiz.solstice.core.options.Options
+import cc.lapiz.solstice.core.utils.Props
+import cc.lapiz.solstice.core.utils.logger
 import org.joml.Vector2i
 import org.lwjgl.glfw.*
 import org.lwjgl.glfw.GLFW.*
@@ -62,7 +61,7 @@ object Display {
 		}
 
 		glfwSetWindowFocusCallback(handle) { _, focused ->
-			this.focused = focused
+			Display.focused = focused
 			Events.Queue.push(WindowEvent.Focus(focused))
 		}
 

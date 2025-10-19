@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.event
+package cc.lapiz.solstice.core.event
 
 object Events {
 	val Queue = EventQueue()

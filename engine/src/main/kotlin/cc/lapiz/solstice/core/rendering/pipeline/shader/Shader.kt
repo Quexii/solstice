@@ -1,10 +1,12 @@
 package cc.lapiz.solstice.rendering.pipeline.shader
 
-import cc.lapiz.solstice.rendering.pipeline.vertex.VertexAttributeType
-import cc.lapiz.solstice.rendering.pipeline.vertex.VertexLayout
-import cc.lapiz.solstice.resource.IO
-import cc.lapiz.solstice.resource.impl.ShaderId
-import cc.lapiz.solstice.utils.logger
+import cc.lapiz.solstice.core.rendering.pipeline.shader.Uniform
+import cc.lapiz.solstice.core.rendering.pipeline.shader.UniformScope
+import cc.lapiz.solstice.core.rendering.pipeline.vertex.VertexAttributeType
+import cc.lapiz.solstice.core.rendering.pipeline.vertex.VertexLayout
+import cc.lapiz.solstice.core.resource.IO
+import cc.lapiz.solstice.core.resource.impl.ShaderId
+import cc.lapiz.solstice.core.utils.logger
 import org.lwjgl.opengl.GL33C
 
 class Shader(private val resource: ShaderId) {

@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.options
+package cc.lapiz.solstice.core.options
 
 import kotlinx.serialization.json.*
 import java.io.*
@@ -48,7 +48,7 @@ object Options {
 		return when (val parsed = option.parse(value)) {
 			null -> false
 			else -> {
-				@Suppress("UNCHECKED_CAST") set(option as Option<Any>, parsed)
+				@Suppress("UNCHECKED_CAST") (set(option as Option<Any>, parsed))
 			}
 		}
 	}

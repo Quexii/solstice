@@ -1,7 +1,7 @@
-package cc.lapiz.solstice.rendering
+package cc.lapiz.solstice.core.rendering
 
-import cc.lapiz.solstice.data.Vector2
-import cc.lapiz.solstice.window.Display
+import cc.lapiz.solstice.core.data.Vector2
+import cc.lapiz.solstice.core.window.Display
 import org.joml.*
 import org.lwjgl.BufferUtils
 import java.nio.FloatBuffer

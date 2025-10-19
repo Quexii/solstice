@@ -1,7 +1,6 @@
-package cc.lapiz.solstice.game
+package cc.lapiz.solstice.core.game
 
-import cc.lapiz.solstice.event.*
-import cc.lapiz.solstice.game.GameObject
+import cc.lapiz.solstice.core.event.Event
 
 abstract class Scene {
 //	val ecs = ECS()

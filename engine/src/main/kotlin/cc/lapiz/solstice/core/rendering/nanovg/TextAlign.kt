@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.rendering.nanovg
+package cc.lapiz.solstice.core.rendering.nanovg
 
 import org.lwjgl.nanovg.NanoVG
 

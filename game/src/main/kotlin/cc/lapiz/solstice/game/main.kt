@@ -2,10 +2,10 @@ package cc.lapiz.solstice.game
 
 import cc.lapiz.solstice.core.Entrypoint
 import cc.lapiz.solstice.core.Solstice
+import cc.lapiz.solstice.core.game.components.ComponentRegistry
 import cc.lapiz.solstice.game.scene.MainScene
-import cc.lapiz.solstice.resource.ResourceManager
-import cc.lapiz.solstice.resource.impl.SpriteId
-import cc.lapiz.solstice.window.WindowOptions
+import cc.lapiz.solstice.core.window.WindowOptions
+import cc.lapiz.solstice.game.components.TestComponent
 
 fun main(args: Array<String>) {
 	Solstice.entry(Game(), args)
@@ -17,6 +17,6 @@ class Game : Entrypoint(MainScene()) {
 	)
 
 	override fun start() {
-		ResourceManager.load(SpriteId("test", "structure_alloy_rock.png"))
+		ComponentRegistry.register<TestComponent>()
 	}
 }

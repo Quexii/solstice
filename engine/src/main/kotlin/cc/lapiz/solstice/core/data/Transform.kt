@@ -1,6 +1,5 @@
-package cc.lapiz.solstice.data
+package cc.lapiz.solstice.core.data
 
-import cc.lapiz.solstice.utils.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import org.joml.Matrix4f

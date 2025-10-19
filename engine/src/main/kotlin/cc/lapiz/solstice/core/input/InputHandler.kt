@@ -1,6 +1,7 @@
-package cc.lapiz.solstice.input
+package cc.lapiz.solstice.core.input
 
-import cc.lapiz.solstice.event.*
+import cc.lapiz.solstice.core.event.Events
+import cc.lapiz.solstice.core.event.InputEvent
 import org.joml.*
 import org.lwjgl.glfw.GLFW.*
 

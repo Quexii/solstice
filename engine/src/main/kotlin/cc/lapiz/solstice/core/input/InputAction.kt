@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.input
+package cc.lapiz.solstice.core.input
 
 enum class InputAction {
     PRESS, RELEASE, REPEAT

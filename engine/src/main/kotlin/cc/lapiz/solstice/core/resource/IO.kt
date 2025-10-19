@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.resource
+package cc.lapiz.solstice.core.resource
 
 import org.lwjgl.*
 import org.lwjgl.system.*

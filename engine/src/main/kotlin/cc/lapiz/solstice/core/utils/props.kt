@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.utils
+package cc.lapiz.solstice.core.utils
 
 object Props {
 	const val VERSION = "0.0.1-alpha"

@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.data
+package cc.lapiz.solstice.core.data
 
 data class Store(val value: Any?) {
 	private var _internalValue: Any? = value

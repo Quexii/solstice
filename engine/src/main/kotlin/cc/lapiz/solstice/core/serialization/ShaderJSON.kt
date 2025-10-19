@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.serialization
+package cc.lapiz.solstice.core.serialization
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.event
+package cc.lapiz.solstice.core.event
 
 class EventBus {
 	private val listeners = mutableMapOf<Class<out Event>, MutableList<(Event) -> Unit>>()

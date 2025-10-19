@@ -1,10 +1,10 @@
-package cc.lapiz.solstice.resource.impl
+package cc.lapiz.solstice.core.resource.impl
 
-import cc.lapiz.solstice.rendering.texture.TextureUtil
-import cc.lapiz.solstice.resource.IO
-import cc.lapiz.solstice.resource.Loadable
-import cc.lapiz.solstice.resource.Id
-import cc.lapiz.solstice.utils.logger
+import cc.lapiz.solstice.core.rendering.texture.TextureUtil
+import cc.lapiz.solstice.core.resource.IO
+import cc.lapiz.solstice.core.resource.Loadable
+import cc.lapiz.solstice.core.resource.Id
+import cc.lapiz.solstice.core.utils.logger
 import org.lwjgl.opengl.GL33C
 import org.lwjgl.stb.STBImage
 import org.lwjgl.system.MemoryStack

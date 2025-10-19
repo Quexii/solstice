@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.data
+package cc.lapiz.solstice.core.data
 
 import kotlinx.serialization.Serializable
 
@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 data class Vector2(var x: Float = 0f, var y: Float = 0f) {
 	constructor(x: Int, y: Int) : this(x.toFloat(), y.toFloat())
 	constructor(x: Double, y: Double) : this(x.toFloat(), y.toFloat())
-
 	fun set(x: Float, y: Float) {
 		this.x = x
 		this.y = y

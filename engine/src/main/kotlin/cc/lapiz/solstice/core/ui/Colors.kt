@@ -1,6 +1,6 @@
 package cc.lapiz.solstice.core.ui
 
-import cc.lapiz.solstice.data.Color
+import cc.lapiz.solstice.core.data.Color
 
 object Colors {
     val Transparent = Color.HEX(0x00000000)

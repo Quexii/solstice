@@ -1,6 +1,6 @@
-package cc.lapiz.solstice.rendering.pipeline.mesh
+package cc.lapiz.solstice.core.rendering.pipeline.mesh
 
-import cc.lapiz.solstice.rendering.pipeline.vertex.VertexLayout
+import cc.lapiz.solstice.core.rendering.pipeline.vertex.VertexLayout
 import kotlin.math.cos
 import kotlin.math.sin
 

@@ -1,6 +1,7 @@
-package cc.lapiz.solstice.rendering.pipeline.mesh
+package cc.lapiz.solstice.core.rendering.pipeline.mesh
 
-import cc.lapiz.solstice.rendering.pipeline.vertex.*
+import cc.lapiz.solstice.core.rendering.pipeline.vertex.VertexAttributeType
+import cc.lapiz.solstice.core.rendering.pipeline.vertex.VertexLayout
 import org.lwjgl.*
 import java.nio.*
 

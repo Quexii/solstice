@@ -1,9 +1,9 @@
 package cc.lapiz.solstice.rendering.nanovg
 
-import cc.lapiz.solstice.data.Color
-import cc.lapiz.solstice.font.FontFace
-import cc.lapiz.solstice.font.FontManager
-import cc.lapiz.solstice.resource.impl.SpriteId
+import cc.lapiz.solstice.core.data.Color
+import cc.lapiz.solstice.core.rendering.nanovg.NVgl
+import cc.lapiz.solstice.core.rendering.nanovg.TextAlign
+import cc.lapiz.solstice.core.resource.impl.SpriteId
 import org.lwjgl.nanovg.*
 import org.lwjgl.system.MemoryUtil
 import java.nio.*
@@ -175,29 +175,29 @@ import java.nio.*
 		nvStroke()
 	}
 
-	fun text(x: Float, y: Float, text: String, size: Float, blur: Float, color: Color, face: FontFace = FontManager.Default.Default, textAlign: TextAlign = TextAlign.LeftTop) {
-		nvFontSize(size)
-		nvFontBlur(blur)
-		nvTextAlign(textAlign.value)
-		nvFillColor(color.toNanoVG())
-		nvTextFontFace(face.id)
-		nvText(x, y, text)
-	}
-
-	fun text(x: Float, y: Float, text: String, color: Color, size: Float = 21f, face: FontFace = FontManager.Default.Default, textAlign: TextAlign = TextAlign.LeftTop) {
-		text(x, y, text, size, 0f, color, face, textAlign)
-	}
-
-	fun stringSize(text: String, size: Float, face: FontFace = FontManager.Default.Default): Float {
-		nvFontSize(size)
-		nvTextAlign(TextAlign.LeftTop.value)
-		nvTextFontFace(face.id)
-		val buf = MemoryUtil.memAllocFloat(4)
-		nvTextBounds(text, buf)
-		val width = buf[2] - buf[0]
-		MemoryUtil.memFree(buf)
-		return width
-	}
+//	fun text(x: Float, y: Float, text: String, size: Float, blur: Float, color: Color, face: FontFace = FontManager.Default.Default, textAlign: TextAlign = TextAlign.LeftTop) {
+//		nvFontSize(size)
+//		nvFontBlur(blur)
+//		nvTextAlign(textAlign.value)
+//		nvFillColor(color.toNanoVG())
+//		nvTextFontFace(face.id)
+//		nvText(x, y, text)
+//	}
+//
+//	fun text(x: Float, y: Float, text: String, color: Color, size: Float = 21f, face: FontFace = FontManager.Default.Default, textAlign: TextAlign = TextAlign.LeftTop) {
+//		text(x, y, text, size, 0f, color, face, textAlign)
+//	}
+//
+//	fun stringSize(text: String, size: Float, face: FontFace = FontManager.Default.Default): Float {
+//		nvFontSize(size)
+//		nvTextAlign(TextAlign.LeftTop.value)
+//		nvTextFontFace(face.id)
+//		val buf = MemoryUtil.memAllocFloat(4)
+//		nvTextBounds(text, buf)
+//		val width = buf[2] - buf[0]
+//		MemoryUtil.memFree(buf)
+//		return width
+//	}
 
 	fun strokeLine(x0: Float, y0: Float, x1: Float, y1: Float, color: Color, strokeWidth: Float) {
 		nvBeginPath()

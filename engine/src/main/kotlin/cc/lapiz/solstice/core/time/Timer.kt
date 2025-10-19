@@ -1,4 +1,4 @@
-package cc.lapiz.solstice.time
+package cc.lapiz.solstice.core.time
 
 import org.lwjgl.glfw.GLFW.glfwGetTime
 
