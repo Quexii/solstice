@@ -1,7 +1,7 @@
 package cc.lapiz.solstice.core
 
 import cc.lapiz.solstice.core.assets.Assets
-import cc.lapiz.solstice.core.dev.Editor
+import cc.lapiz.solstice.core.editor.Editor
 import cc.lapiz.solstice.core.event.Event
 import cc.lapiz.solstice.core.event.Events
 import cc.lapiz.solstice.core.game.SceneManager

@@ -1,17 +1,19 @@
 package cc.lapiz.solstice.rendering.nanovg
 
+import cc.lapiz.solstice.core.assets.types.Sprite
 import cc.lapiz.solstice.core.data.Color
 import cc.lapiz.solstice.core.rendering.nanovg.NVgl
-import cc.lapiz.solstice.core.rendering.nanovg.TextAlign
-import cc.lapiz.solstice.core.resource.impl.SpriteId
-import org.lwjgl.nanovg.*
-import org.lwjgl.system.MemoryUtil
-import java.nio.*
+import org.lwjgl.nanovg.NVGColor
+import org.lwjgl.nanovg.NVGPaint
+import org.lwjgl.nanovg.NanoVG
+import java.nio.ByteBuffer
+import java.nio.FloatBuffer
+import java.nio.IntBuffer
 
 @Suppress("FunctionName", "unused") object NVcanvas {
 	private lateinit var nvgl: NVgl
 	private var context: Long = 0
-	private val imagesMap = mutableMapOf<SpriteId, Int>()
+	private val imagesMap = mutableMapOf<Sprite, Int>()
 	fun init(nvgl: NVgl, flags: Int)  {
 		this.nvgl = nvgl
 		context = nvgl.create(flags)
@@ -215,7 +217,7 @@ import java.nio.*
 		nvFill()
 	}
 
-	fun sprite(x: Float, y: Float, w: Float, h: Float, sprite: SpriteId) {
+	fun sprite(x: Float, y: Float, w: Float, h: Float, sprite: Sprite) {
 		if (!imagesMap.contains(sprite)) {
 			imagesMap[sprite] = nvCreateImageMem(sprite.rawData()!!, NanoVG.NVG_IMAGE_NEAREST)
 		}

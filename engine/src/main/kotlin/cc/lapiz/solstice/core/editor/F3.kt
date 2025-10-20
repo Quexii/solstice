@@ -1,10 +1,9 @@
-package cc.lapiz.solstice.core.dev
+package cc.lapiz.solstice.core.editor
 
 import cc.lapiz.solstice.core.data.Color
 import cc.lapiz.solstice.core.input.Input
 import cc.lapiz.solstice.core.input.Keys
 import cc.lapiz.solstice.core.rendering.RenderSystem
-import cc.lapiz.solstice.core.rendering.nanovg.TextAlign
 import cc.lapiz.solstice.core.ui.Colors
 import cc.lapiz.solstice.core.ui.imgui.ImGuiCtx
 import cc.lapiz.solstice.core.utils.argbToAbgr

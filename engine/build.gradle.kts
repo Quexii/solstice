@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
 	id("java")
 	id("rtsg-global")
@@ -27,4 +30,8 @@ dependencies {
 
 kotlin {
 	jvmToolchain(21)
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.compilerOptions {
+    languageVersion.set(KotlinVersion.KOTLIN_2_2)
 }

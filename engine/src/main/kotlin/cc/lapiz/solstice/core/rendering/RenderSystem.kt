@@ -5,7 +5,6 @@ import cc.lapiz.solstice.core.rendering.nanovg.platform.NVgl3
 import cc.lapiz.solstice.core.rendering.pipeline.mesh.Mesh
 import cc.lapiz.solstice.core.rendering.pipeline.mesh.Meshes
 import cc.lapiz.solstice.core.rendering.pipeline.shader.Framebuffer
-import cc.lapiz.solstice.core.rendering.pipeline.shader.ShaderManager
 import cc.lapiz.solstice.core.rendering.pipeline.shader.UniformScope
 import cc.lapiz.solstice.core.window.Display
 import cc.lapiz.solstice.rendering.nanovg.NVcanvas
@@ -24,18 +23,15 @@ object RenderSystem {
 		NVcanvas.init(NVgl3(), NanoVGGL3.NVG_ANTIALIAS or NanoVGGL3.NVG_STENCIL_STROKES)
 		framebuffer.init(Display.width(), Display.height())
 
-		ShaderManager.loadShaders()
 		Meshes.init()
 		camera.projectWorld()
 	}
 
 	fun framebuffer(): Framebuffer = framebuffer
 
-	fun setShader(shader: ShaderManager.() -> Shader) {
-		currentShader = shader(ShaderManager)
+	fun setShader(shader: Shader) {
+		currentShader = shader
 	}
-
-	fun currentShader(): Shader? = currentShader
 
 	fun renderMesh(mesh: Mesh, transform: Transform, extraUniforms: UniformScope.() -> Unit = {}) {
 		currentShader?.use {

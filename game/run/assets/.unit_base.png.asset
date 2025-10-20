@@ -1,1 +1,9 @@
-{"version":"0.1","uid":"30d362cf-4255-4b08-b6e9-b36852147ebe","path":"/home/shoroa/Code/JVM/rts-game/game/run/assets/unit_base.png","type":"Single","filter":"Nearest","wrap":"Clamp"}
+{
+    "version": "0.1",
+    "uid": "3c9b4dae-b0ee-4565-99d1-555437486f42",
+    "path": "/home/shoroa/Code/JVM/rts-game/game/run/assets/unit_base.png",
+    "metaType": "texture",
+    "type": "Single",
+    "filter": "Nearest",
+    "wrap": "Clamp"
+}

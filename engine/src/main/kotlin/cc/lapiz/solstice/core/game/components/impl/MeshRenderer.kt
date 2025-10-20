@@ -22,7 +22,7 @@ open class MeshRenderer : Component(), ImSerialize, JsonSerializable {
         assert(shader != null) { "Shader is null!" }
 
         preShader()
-        RenderSystem.setShader { shader!! }
+        RenderSystem.setShader(shader!!)
         RenderSystem.renderMesh(mesh!!, gameObject.getComponent<Transform>()!!.backing) { applyUniforms(this) }
     }
 

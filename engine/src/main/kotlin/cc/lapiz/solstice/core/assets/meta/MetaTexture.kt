@@ -6,6 +6,9 @@ import java.nio.file.Path
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
+typealias MetaTextureType = MetaTexture.Serialized.TextureType
+typealias MetaTextureFilter = MetaTexture.Serialized.TextureFilter
+typealias MetaTextureWrap = MetaTexture.Serialized.TextureWrap
 class MetaTexture(path: Path) : Meta<MetaTexture.Serialized>(path) {
     override val version: String
         get() = "0.1"

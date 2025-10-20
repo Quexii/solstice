@@ -6,12 +6,14 @@ import cc.lapiz.solstice.core.resource.IO
 import cc.lapiz.solstice.core.window.Display
 import imgui.ImGui
 import imgui.ImGuiIO
+import imgui.extension.imnodes.ImNodes
 import imgui.flag.ImGuiConfigFlags
 import imgui.flag.ImGuiMouseButton
 import imgui.flag.ImGuiWindowFlags
 import imgui.gl3.*
 import imgui.glfw.*
 import imgui.internal.*
+import imgui.type.ImBoolean
 import kotlinx.serialization.json.Json
 import org.lwjgl.glfw.GLFW
 
@@ -35,8 +37,18 @@ object ImGuiCtx {
         }
     }
 
+    fun withTopPopup(id: String) {
+        if (ImGui.isWindowHovered() &&
+            ImGui.isMouseClicked(ImGuiMouseButton.Right)
+        ) {
+            ImGui.openPopup(id)
+        }
+    }
+
     fun init(config: (ImGuiIO) -> Unit): ImGuiContext {
         val ctx = ImGui.createContext()
+        ImNodes.createContext()
+        ImNodes.editorContextCreate()
         config(io())
         imGuiGlfw.init(Display.handle, true)
         imGuiGl3.init("#version 330 core")
@@ -74,7 +86,7 @@ object ImGuiCtx {
         imGuiGl3.newFrame()
         imGuiGlfw.newFrame()
         ImGui.newFrame()
-        ImGui.dockSpaceOverViewport()
+        ImGui.dockSpaceOverViewport(ImGui.getMainViewport().id)
     }
 
     fun render() {

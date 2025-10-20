@@ -1,5 +1,6 @@
 package cc.lapiz.solstice.rendering.pipeline.shader
 
+import cc.lapiz.solstice.core.rendering.pipeline.shader.ShaderData
 import cc.lapiz.solstice.core.rendering.pipeline.shader.Uniform
 import cc.lapiz.solstice.core.rendering.pipeline.shader.UniformScope
 import cc.lapiz.solstice.core.rendering.pipeline.vertex.VertexAttributeType
@@ -9,7 +10,7 @@ import cc.lapiz.solstice.core.resource.impl.ShaderId
 import cc.lapiz.solstice.core.utils.logger
 import org.lwjgl.opengl.GL33C
 
-class Shader(private val resource: ShaderId) {
+class Shader(private vararg val sources: ShaderData) {
 	companion object {
 		private val LOGGER = logger(Shader::class.java)
 	}
@@ -22,34 +23,31 @@ class Shader(private val resource: ShaderId) {
 
 	fun init() {
 		program = GL33C.glCreateProgram()
-		resource.layout.shaders.forEach { shader ->
-			val type = when (shader.type.lowercase()[0]) {
-				'v' -> GL33C.GL_VERTEX_SHADER
-				'f' -> GL33C.GL_FRAGMENT_SHADER
-				else -> throw RuntimeException("Unsupported shader type: ${shader.type}")
-			}
-			val source = IO.getText(shader.file)
-			shaders[type] = createShader(source, type)
+		sources.forEach { source ->
+			shaders[source.type.glType] = createShader(source.data, source.type.glType)
+			LOGGER.info("Created shader ${source.name}")
 		}
 
 		GL33C.glLinkProgram(program)
 		val status = GL33C.glGetProgrami(program, GL33C.GL_LINK_STATUS)
 		if (status == GL33C.GL_FALSE) {
-			LOGGER.error("Shader ${resource.layout.name} failed to link program: $program")
+			LOGGER.error("Shader failed to link program: $program")
 			LOGGER.error(GL33C.glGetProgramInfoLog(program))
 			throw RuntimeException()
 		}
 
-		resource.layout.uniforms.forEach {
-			uniforms[it.name] = Uniform(it.name, it.type, GL33C.glGetUniformLocation(program, it.name))
-			if (uniforms[it.name]!!.location == -1) {
-				LOGGER.warn("Uniform ${it.name} not found in shader ${resource.layout.name}")
+		sources.forEach { source ->
+			source.uniforms.forEach {
+				uniforms[it.name] = Uniform(it.name, it.type, GL33C.glGetUniformLocation(program, it.name))
+				if (uniforms[it.name]!!.location == -1) {
+					LOGGER.warn("Uniform ${it.name} not found in shader ${source.name}")
+				}
 			}
 		}
 
 		uniformScope = UniformScope(uniforms)
 	}
-	
+
 	fun bind() {
 		GL33C.glUseProgram(program)
 	}
@@ -64,26 +62,27 @@ class Shader(private val resource: ShaderId) {
 
 	fun use(block: Shader.() -> Unit) {
 		bind()
-		block()
+		block(this)
 		unbind()
 	}
 
 	private fun buildLayout(): VertexLayout {
-		val shaderLayout = resource.layout
 		val layout = VertexLayout()
-		shaderLayout.attributes.forEachIndexed { index, attr ->
-			val type = when (attr.type.lowercase()) {
-				"float" -> VertexAttributeType.FLOAT
-				"vec2" -> VertexAttributeType.VEC2
-				"vec3" -> VertexAttributeType.VEC3
-				"vec4" -> VertexAttributeType.VEC4
-				"int" -> VertexAttributeType.INT
-				"ivec2" -> VertexAttributeType.IVEC2
-				"ivec3" -> VertexAttributeType.IVEC3
-				"ivec4" -> VertexAttributeType.IVEC4
-				else -> throw RuntimeException("Unsupported attribute type: ${attr.type}")
+		sources.forEach { source ->
+			source.attributes.forEachIndexed { index, attr ->
+				val type = when (attr.type.lowercase()) {
+					"float" -> VertexAttributeType.FLOAT
+					"vec2" -> VertexAttributeType.VEC2
+					"vec3" -> VertexAttributeType.VEC3
+					"vec4" -> VertexAttributeType.VEC4
+					"int" -> VertexAttributeType.INT
+					"ivec2" -> VertexAttributeType.IVEC2
+					"ivec3" -> VertexAttributeType.IVEC3
+					"ivec4" -> VertexAttributeType.IVEC4
+					else -> throw RuntimeException("Unsupported attribute type: ${attr.type}")
+				}
+				layout.addAttribute(index, type)
 			}
-			layout.addAttribute(index, type)
 		}
 
 		return layout
@@ -95,7 +94,7 @@ class Shader(private val resource: ShaderId) {
 		GL33C.glCompileShader(shader)
 		val status = GL33C.glGetShaderi(shader, GL33C.GL_COMPILE_STATUS)
 		if (status == GL33C.GL_FALSE) {
-			LOGGER.error("Shader ${resource.layout.name} failed to compile shader: $shader")
+			LOGGER.error("Failed to compile shader: $shader")
 			LOGGER.error(GL33C.glGetShaderInfoLog(shader))
 			throw RuntimeException()
 		}

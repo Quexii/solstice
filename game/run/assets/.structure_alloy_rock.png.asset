@@ -1,1 +1,9 @@
-{"version":"0.1","uid":"14edf658-1f07-4f32-acfb-80caf42121f6","path":"/home/shoroa/Code/JVM/rts-game/game/run/assets/structure_alloy_rock.png","type":"Single","filter":"Nearest","wrap":"Clamp"}
+{
+    "version": "0.1",
+    "uid": "1b5c36a7-3803-4528-b67f-a5caa45deaa8",
+    "path": "/home/shoroa/Code/JVM/rts-game/game/run/assets/structure_alloy_rock.png",
+    "metaType": "texture",
+    "type": "Single",
+    "filter": "Nearest",
+    "wrap": "Clamp"
+}
