@@ -1,7 +1,6 @@
 package cc.lapiz.solstice.core.editor
 
 import cc.lapiz.solstice.core.editor.view.*
-import cc.lapiz.solstice.core.editor.view.shader.EditorViewShaderEditor
 import cc.lapiz.solstice.core.game.Scene
 import cc.lapiz.solstice.core.game.SceneManager
 import imgui.ImGui
@@ -12,8 +11,7 @@ object Editor {
         EditorViewHierarchy(),
         EditorViewInspector(),
         EditorViewViewport(),
-        EditorViewAssets(),
-        EditorViewShaderEditor()
+        EditorViewAssets()
     )
 
     private val toggledViews = buildMap<EditorView, Boolean> {
@@ -21,14 +19,12 @@ object Editor {
     }.toMutableMap()
     var inspectorItem: InspectorItem<*>? = null
         private set
-    private var extraSelecedData: Any? = null
 
     init {
         toggledViews[views.first { it is EditorViewHierarchy }] = true
         toggledViews[views.first { it is EditorViewInspector }] = true
         toggledViews[views.first { it is EditorViewViewport }] = true
         toggledViews[views.first { it is EditorViewAssets }] = true
-        toggledViews[views.first { it is EditorViewShaderEditor }] = true
     }
 
     fun imgui() {
